@@ -1,0 +1,15 @@
+
+% !TeX root=DeepRelAttr.tex
+% !TEX TS-program = pdfLatex
+
+%%%%%%%%%%%%%%%%%%%%% EXPERIMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experiments}
+
+\subsection{Datasets}
+To assess the performance of the proposed method, we have evaluated our method on five datasets.\;\textbf{PubFig} \cite{pubfig} (faces) and \textbf{OSR} \cite{oliva2001modeling} (outdoor scenes) datasets are used to compare the results of the proposed method with previous works. The PubFig dataset consists of 800 facial images of 8 random subjects. 11 attributes are defined in this dataset and attribute ordering of images is annotated in category level, \ie all images of a category may be ranked higher, equal, or lower than all images of another category, with respect to an attribute. The OSR dataset contains 2688 images in 8 categories, for which 6 relative attributes are defined. Like the PubFig dataset, relative ranking of attributes for this dataset have been annotated in category level.
+Also \textbf{UT-Zap50K} \cite{Yu2014} (shoes) and \textbf{LFW-10} \cite{Sandeep_2014_CVPR} (faces) datasets, which are more challenging, have been used to assess the quality of the proposed method. The UT-Zap50K dataset consists of two collections, namely UT-Zap50K-1 in which \textit{coarse} relative attributes are compared for image pairs, and UT-Zap50K-2 in which \textit{fine-grained} relative attributes are compared for image pairs. The LFW-10 dataset consists of 2000 images and 10 attributes and for each attribute a random subset of 500 pairs of images have been annotated for each train and test set. Large number of categories in the UT-Zap50K and LFW-10 datasets makes them more challenging than the PubFig and OSR datasets. In addition to these datasets, to further analyze the properties of this end-to-end model and the feature hierarchy obtained, we have also experiemted with the MNIST \cite{lecun1998mnist} dataset. We have used class labels for images as the relative attribute and used the value of class label to rank images.
+\subsection{Experimental setup}
+\subsection{Baseline and compared methods}
+\subsection{Results}
+\subsection{Discussions}
+

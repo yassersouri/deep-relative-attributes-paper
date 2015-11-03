@@ -1,0 +1,262 @@
+% Pacote: sci.sty
+% Macros científicas para LaTeX
+% Tiago Quelhas, 2007.03.05
+
+\ProvidesPackage{sci}
+
+% Fonte de texto em modo matemática
+\newcommand{\txt}{\mathrm}
+
+% Constantes
+\newcommand{\e}{\txt{e}}
+\renewcommand{\i}{\txt{i}}
+\renewcommand{\j}{\txt{j}}
+
+% Vectores, versores e fasores
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\versor}[1]{\mathbf{\hat{#1}}}
+\newcommand{\phasor}[1]{\overline{\txt{#1}}}
+
+% Notação científica
+\newcommand{\sci}[2]{#1~\times~10^{#2}}
+
+% Símbolos
+%\renewcommand{\Re}{\txt{Re}}
+\renewcommand{\Im}{\txt{Im}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\avg}[1]{\left<#1\right>}
+
+% Cálculo diferencial
+\newcommand{\grad}{\nabla}
+\newcommand{\deriv}[2]{\frac{d{#1}}{d{#2}}}
+\newcommand{\pderiv}[2]{\frac{\partial{#1}}{\partial{#2}}}
+
+% Processamento de sinal
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\rect}{rect}
+\DeclareMathOperator{\tri}{tri}
+
+% Prefixos SI
+\newcommand{\ato}{\txt{a}}
+\newcommand{\fento}{\txt{f}}
+\newcommand{\pico}{\txt{p}}
+\newcommand{\nano}{\txt{n}}
+\newcommand{\micro}{\txt{\mu}}
+\newcommand{\mili}{\txt{m}}
+\newcommand{\centi}{\txt{c}}
+\newcommand{\deci}{\txt{d}}
+\newcommand{\deca}{\txt{da}}
+\newcommand{\hecto}{\txt{h}}
+\newcommand{\kilo}{\txt{k}}
+\newcommand{\mega}{\txt{M}}
+\newcommand{\giga}{\txt{G}}
+\newcommand{\tera}{\txt{T}}
+\newcommand{\exa}{\txt{E}}
+\newcommand{\peta}{\txt{P}}
+
+% Unidades SI Base
+\newcommand{\metro}{\txt{m}}
+\newcommand{\kg}{\txt{kg}}
+\newcommand{\seg}{\txt{s}}
+\newcommand{\ampere}{\txt{A}}
+\newcommand{\kelvin}{\txt{K}}
+\newcommand{\mol}{\txt{mol}}
+\newcommand{\candela}{\txt{cd}}
+
+% Unidades SI Derivadas
+\newcommand{\rad}{\txt{rad}}
+\newcommand{\srad}{\txt{sr}}
+\newcommand{\hertz}{\txt{Hz}}
+\newcommand{\newton}{\txt{N}}
+\newcommand{\joule}{\txt{J}}
+\newcommand{\watt}{\txt{W}}
+\newcommand{\pascal}{\txt{Pa}}
+\newcommand{\lumen}{\txt{lm}}
+\newcommand{\lux}{\txt{lx}}
+\newcommand{\coulomb}{\txt{C}}
+\newcommand{\volt}{\txt{V}}
+\newcommand{\ohm}{\txt{\Omega}}
+\newcommand{\farad}{\txt{F}}
+\newcommand{\weber}{\txt{Wb}}
+\newcommand{\tesla}{\txt{T}}
+\newcommand{\henry}{\txt{H}}
+\newcommand{\siemens}{\txt{S}}
+\newcommand{\becquerel}{\txt{Bq}}
+\newcommand{\sievert}{\txt{Sv}}
+\newcommand{\katal}{\txt{kat}}
+
+% Outras unidades
+\newcommand{\eV}{\txt{eV}}
+\newcommand{\dB}{\txt{dB}}
+\newcommand{\graus}{{}^\circ}
+\newcommand{\celsius}{\graus\!C}
+\newcommand{\bps}{\txt{bps}}
+\newcommand{\bytes}{\txt{B}}
+
+% abreviações
+
+\def\nb{\emph{N.B}.}
+
+\def\eg{\emph{e.g}.} \def\Eg{\emph{E.g}.}
+\def\ie{\emph{i.e}.} \def\Ie{\emph{I.e}.}
+\def\cf{\emph{c.f}.} \def\Cf{\emph{C.f}.}
+\def\etc{\emph{etc}.} 
+\def\vs{\emph{vs}.}
+\def\wrt{w.r.t.} 
+\def\dof{d.o.f.}
+\def\etal{\emph{et al}.}
+
+% argmax
+
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}\;}
+
+\newcommand{\argmin}[1]{\underset{#1}{\operatorname{argmin}}\;}
+
+
+% SNR
+\newcommand{\SNR}[1]{\operatorname{SNR} #1}
+
+% Big-O Notation
+\providecommand{\OO}[1]{\mathcal{O}\bigl(#1\bigr)}
+
+
+% rank
+
+\newcommand{\rank}[1]{\operatorname{rank} #1}
+
+% trace
+
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\trace}{trace}
+% Real numbers
+
+
+\def\balpha{\mbox{\boldmath $\alpha$}}
+\def\bDelta{{\bf \Delta}}
+\def\bLambda{{\bf \Lambda}}
+\def\bvarphi{{\bf \varphi}}
+\def\bTheta{{\bf \Theta}}
+\def\btheta{\mbox{\boldmath $\theta$}}
+
+\def\a{{\bf a}}
+\def\q{{\bf q}}
+\def\e{{\bf e}}
+\def\d{{\bf d}}
+\def\X{{\bf X}}
+\def\D{{\bf D}}
+\def\x{{\bf x}}
+\def\f{{\bf f}}
+\def\v{{\bf v}}
+\def\t{{\bf t}}
+\def\Y{{\bf Y}}
+\def\L{{\bf L}}
+\def\y{{\bf y}}
+\def\K{{\bf K}}
+\def\k{{\bf k}}
+\def\m{{\bf m}}
+\def\A{{\bf A}}
+\def\B{{\bf B}}
+\def\C{{\bf C}}
+\def\c{{\bf c}}
+\def\F{{\bf F}}
+\def\bbeta{{\bf \beta}}
+\def\bvarphi{{\bf \varphi}}
+\def\U{{\bf U}}
+\def\V{{\bf V}}
+\def\S{{\bf S}}
+\def\T{{\bf T}}
+\def\w{{\bf w}}
+\def\W{{\bf W}}
+\def\I{{\bf I}}
+\def\g{{\bf g}}
+\def\G{{\bf G}}
+\def\Q{{\bf Q}}
+\def\Z{{\bf Z}}
+\def\T{{\bf T}}
+\def\z{{\bf z}}
+\def\R{{\bf R}}
+\def\p{{\bf p}}
+\def\P{{\bf P}}
+\def\H{{\bf H}}
+\def\h{{\bf h}}
+\def\M{{\bf M}}
+\def\s{{\bf s}}
+\def\E{{\bf E}}
+\def\1{{\bf 1}}
+\def\0{{\bf 0}}
+
+\DeclareMathOperator*{\sgn}{sgn}
+
+%\newcommand{\qed}{\nobreak \ifvmode \relax \else
+%      \ifdim\lastskip<1.5em \hskip-\lastskip
+%      \hskip1.5em plus0em minus0.5em \fi \nobreak
+%      \vrule height0.75em width0.5em depth0.25em\fi}
+
+%\newcommand{\notation}{ Bold capital letters denote matrices (\eg, ${\bf D}$).  All non-bold letters denote scalar variables. 
+%	$d_{ij}$ denotes the scalar in the row $i$ and column $j$ of ${\bf D}$.
+%	$\langle \mathbf{d}_1, \mathbf{d}_2 \rangle$ denotes the inner product between two vectors $\mathbf{d}_1$ and $\mathbf{d}_2$.
+%	$||\mathbf{d}||_2^2 = \langle \mathbf{d}, \mathbf{d} \rangle = \sum_i d_{i}^2$ denotes the squared
+%	Euclidean Norm of the vector $\mathbf{d}$. $\tr(\mathbf{A})=\sum_i a_{ii}$ is the trace of $\mathbf{A}$.
+%	$\|\mathbf{A}||_F^2=\tr(\mathbf{A}^\top \mathbf{A})=\sum_{ij} a_{ij}$ designates the squared Frobenius Norm of $\mathbf{A}$.
+%	$||\mathbf{A}||_*$ designates the nuclear norm (sum of singular values) of $\mathbf{A}$. 
+%	$\odot$ denotes the hadamard or elementwise product. $\mathbf{I}_K \in \mathbb{R}^{K\times K}$ denotes the identity matrix.}
+%	
+\newcommand{\notation}{Bold capital letters denote matrices (\eg, ${\bf D}$).  All non-bold letters denote scalar variables. 
+	$d_{ij}$ is the scalar in the row $i$ and column $j$ of ${\bf D}$.
+	$\langle \mathbf{d}_1, \mathbf{d}_2 \rangle$ denotes the inner product between $\mathbf{d}_1$ and $\mathbf{d}_2$.
+%	$\|\mathbf{d}\|_2^2 = \langle \mathbf{d}, \mathbf{d} \rangle = \sum_i d_{i}^2$ denotes the squared Euclidean Norm of $\mathbf{d}$. %$\tr(\mathbf{A})=\sum_i a_{ii}$ is the trace of $\mathbf{A}$.
+	$\|\mathbf{d}\|_2^2$ and $\|\mathbf{d}\|_1$ represent the squared Euclidean Norm and the $\ell_1$ norm of $\mathbf{d}$, respectively. %$\tr(\mathbf{A})=\sum_i a_{ii}$ is the trace of $\mathbf{A}$.
+%	$\|\mathbf{D}\|_\text{F}^2=\tr(\mathbf{D}^\top \mathbf{D})=\sum_{ij} d_{ij}$ designates the squared Frobenius Norm of $\mathbf{D}$.
+%	$\|\mathbf{D}\|_*$ designates the nuclear norm (sum of singular values) of $\mathbf{D}$. 
+	$\|\mathbf{D}\|_\text{F}^2=\tr(\mathbf{D}^\top \mathbf{D})=\sum_{ij} d_{ij}$ and $\|\mathbf{D}\|_*$ designate the squared Frobenius Norm and the nuclear norm (sum of singular values)  of $\mathbf{D}$, respectively. 
+%	$\|\mathbf{d}\|_1=\sum_{i}|d_i|$ denotes the $l_1$ norm of the vector $\mathbf{d}$.
+	%$\odot$ denotes the hadamard or elementwise product. $\mathbf{I}_K \in \mathbb{R}^{K\times K}$ denotes the identity matrix.
+	}
+
+\DeclareMathOperator*{\vect}{vec}
+
+
+\usepackage{color}
+\definecolor{dkmag}{rgb}{0.5,0,0.5}
+\newcommand{\cmt}[2]{\textcolor{dkmag}{[#1: #2]}}
+\newcommand{\ricardo}[1]{ \cmt{Ricardo}{#1}}
+
+\definecolor{eam}{rgb}{0.0,0.0,1.0}
+\newcommand{\cmtt}[2]{\textcolor{eam}{[#1: #2]}}
+\newcommand{\ehsan}[1]{ \cmtt{Ehsan}{#1}}
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% EAM
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\definecolor{bblue}{HTML}{4F81BD}
+\definecolor{rred}{HTML}{C0504D}
+\definecolor{ggreen}{HTML}{9BDD59}
+\definecolor{ppurple}{HTML}{9F4C7C}
+\newcommand{\myunit}{1 cm}
+\tikzset{
+    node style sp/.style={draw,circle,minimum size=\myunit},
+    node style ge/.style={circle,minimum size=\myunit},
+    arrow style mul/.style={draw,sloped,midway,fill=white},
+    arrow style plus/.style={midway,sloped,fill=white},
+}
+  \tikzset{BarreStyle/.style =   {opacity=.4,line width=3 mm,line cap=round,color=#1}}
+  \tikzset{BarreStyle2/.style =   {opacity=.4,line width=18 mm,line cap=round,color=#1}}
+  \tikzset{BarreStyle3/.style =   {opacity=.4,line width=20 mm,line cap=round,color=#1}}
+    \tikzset{SignePlus/.style =   {above left,,opacity=1,circle,fill=#1!50}}
+    \tikzset{SigneMoins/.style =   {below left,,opacity=1,circle,fill=#1!50}}
+
+\newlength\myindent
+\setlength\myindent{1em}
+\newcommand\bindent{%
+  \begingroup
+  \setlength{\itemindent}{\myindent}
+  \addtolength{\algorithmicindent}{\myindent}
+}
+\newcommand\eindent{\endgroup}
+
