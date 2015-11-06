@@ -21,7 +21,7 @@
 \usepackage{pgfplotstable}
 \usepackage{filecontents,pgfplots}
 \usepackage{tikz}
-\usetikzlibrary{shapes,matrix,arrows,decorations.pathmorphing}
+\usetikzlibrary{shapes,matrix,arrows,decorations.pathmorphing, positioning, calc, decorations.markings}
 \usepackage{sci}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -67,7 +67,7 @@ First line of institution2 address\\
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-Relative Attributes are a very natural way of thinking in terms of attributes and communicating with machines. The idea was introduced in the award winning ICCV 2011 paper by D. Parikh and K. Grauman \cite{parikh2011}. In this project we want to improve their system by using a Deep Neural Network instead of a RankSVM to do the ranking. This way we can also use Convolutional Layers to learn the features end-to-end or fine-tune the features.
+Visual attributes are great means of describing images or scenes, in a way both humans and computers understand. In order to establish a correspondence between images and to be able to compare the strength of each property between images, relative attributes were introduced. However, ever since their introduction, hand-crafted and engineered features were used to learn complex models for the attributes. This limits the applicability of those methods for more realistic cases. In this paper, we propose a deep neural network strategy to rank images, based on a set of learned attribute-specific features. A convolutional neural network (ConvNet) architecture is adopted to learn the features and an additional layer (ranking layer) learns to rank the images, based on these features. Therefore, our proposed model enjoys a unified deep neural network model, in which both feature learning and ranking are intertwined, influencing each other while enhancing the overall performance. We use all publicly-available fine-grained and coarse-grained relative attribute datasets, and evaluate our method. Our proposed method outperforms all baseline and state-of-the-art methods in all datasets. 
 \end{abstract}
 
 
