@@ -11,7 +11,7 @@
 \begin{figure*}
 \label{fig.2}
 \centering
-\scalebox{.35}
+\scalebox{.3}
 {
 % We need layers to draw the block diagram
 \pgfdeclarelayer{background}
@@ -29,7 +29,7 @@
 
 \begin{tikzpicture}
 	% feature extraction part rectangle
-	\node [scale=3] (testtitle) at (10.5cm, 4.5cm) {Test time};
+	\node [scale=3] (testtitle) at (10.5cm, 5.0cm) {\textcolor{red}{Test time}};
 	\draw [rounded corners=1cm, dashed, line width=3, red] (-3.5cm, 4cm) rectangle (24.5cm,-2.5cm);
 	% images
 	\node (im1) at (0cm,1cm) [draw] {\includegraphics[scale=1]{im1.jpg}};
@@ -102,8 +102,8 @@
 	\node (target) at (26cm , -9.5cm) [scale=3] {target};
 
 	% connect to bxe
-	\draw [line width=3, ->] (posterior.east) -- ++(2cm, 0cm) |- node [above right, scale=3] {$p$}  (bxent.north west);
-	\draw [line width=3, ->] (target.east) -- node [below, scale=3] {$t$}  (bxent.south west |- target.east);
+	\draw [line width=3, ->] (posterior.east) -- ++(2cm, 0cm) |- node [above right, scale=3] {$p_{ij}$}  (bxent.north west);
+	\draw [line width=3, ->] (target.east) -- node [below, scale=3] {$t_{ij}$}  (bxent.south west |- target.east);
 
 	% loss node
 	\node (loss) [scale=3] at (40cm, -8cm) { loss};
