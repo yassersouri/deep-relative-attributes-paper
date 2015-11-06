@@ -1,0 +1,14 @@
+- reviewers will ask why fc7, perform a sensitivity analysis and report results with other layers or whatever, do you have a reason to explain why this
+
+- You say you learn features incorporating the ranking layer
+so
+you are using the supervised information here, right?
+the annotation info i mean
+this affects the learned features!? right?
+So, the learned features would not be unsupervised anymore
+
+- fig one should show the deep characteristic of the method, 
+
+- fig 3 is not good, not appropriate  
+
+- 

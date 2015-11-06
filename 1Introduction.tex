@@ -22,16 +22,16 @@ While binary visual attributes relate properties to entities (\eg, a dog being f
 {
 \begin{tikzpicture}
 	% pair 1
-	\node (p1A) {\includegraphics[scale=0.65]{pair1A.jpg}};
+	\node (p1A) {\includegraphics[scale=0.65]{Fig1/pair1A.jpg}};
 	\node (p1op) [right=0.0cm of p1A, scale=3] {$>$};
-	\node (p1B) [right=-0.4cm of p1op] {\includegraphics[scale=0.65]{pair1B.jpg}};
+	\node (p1B) [right=-0.4cm of p1op] {\includegraphics[scale=0.65]{Fig1/pair1B.jpg}};
 
 	\draw[line width=2, rounded corners] ($(p1A.north west)+(-0.0,0.5)$)  rectangle ($(p1B.south east)+(0.0,-0.5)$);
 	
 	% pair 2
-	\node (p2B) [right=0.0cm of p1B] {\includegraphics[scale=0.65] {pair2B.jpg}};
+	\node (p2B) [right=0.0cm of p1B] {\includegraphics[scale=0.65] {Fig1/pair2B.jpg}};
 	\node (p2op) [right=0.0cm of p2B, scale=3] {$<$};
-	\node (p2A) [right=-0.4cm of p2op] {\includegraphics[scale=0.65] {pair2A.jpg}};
+	\node (p2A) [right=-0.4cm of p2op] {\includegraphics[scale=0.65] {Fig1/pair2A.jpg}};
 
 	\draw[line width=2, rounded corners] ($(p2B.north west)+(0.2,0.5)$) rectangle ($(p2A.south east)+(0.0, -0.5)$);
 
@@ -39,9 +39,9 @@ While binary visual attributes relate properties to entities (\eg, a dog being f
 	\node (dots) [right=0.1cm of p2A, scale=4] {\dots};
 
 	% pair3
-	\node (p3A) [right=0.0cm of dots] {\includegraphics[scale=0.65]{pair3A.jpg}};
+	\node (p3A) [right=0.0cm of dots] {\includegraphics[scale=0.65]{Fig1/pair3A.jpg}};
 	\node (p3op) [right=0.0cm of p3A, scale=3] {$>$};
-	\node (p3B) [right=-0.4cm of p3op] {\includegraphics[scale=0.65]{pair3B.jpg}};
+	\node (p3B) [right=-0.4cm of p3op] {\includegraphics[scale=0.65]{Fig1/pair3B.jpg}};
 
 	\draw[line width=2, rounded corners] ($(p3A.north west)+(-0.2,0.5)$) rectangle ($(p3B.south east)+(0.2, -0.5)$);
 
@@ -55,8 +55,8 @@ While binary visual attributes relate properties to entities (\eg, a dog being f
 
 	% testing pair
 	\node (uop) [below=4cm of mid, scale=4] {$?$};
-	\node (puA) [left=0.5cm of uop] {\includegraphics[scale=1]{pairUA.jpg}};
-	\node (puB) [right=0.5cm of uop] {\includegraphics[scale=1]{pairUB.jpg}};
+	\node (puA) [left=0.5cm of uop] {\includegraphics[scale=1]{Fig1/pairUA.jpg}};
+	\node (puB) [right=0.5cm of uop] {\includegraphics[scale=1]{Fig1/pairUB.jpg}};
 	
 	\draw [line width=2, rounded corners, dashed] ($(puA.north west)+(-0.2, 0.5)$) rectangle ($(puB.south east)+(0.2, -0.5)$);
 	
@@ -70,7 +70,7 @@ While binary visual attributes relate properties to entities (\eg, a dog being f
 
 Many have tried to build on the seminal work of Parikh and Grauman \cite{parikh2011} with more complex and task specific models for ranking, while still using hand crafted visual features, such as GIST \cite{Aude01} and HOG \cite{hog}. Recently, Convolutional Neural Networks (ConvNets) have proved successful in various visual recognition tasks, such as image classification \cite{krizshevsky}, object detection \cite{RCNN} and image segmentation \cite{fullyconv}. Many attribute the success of ConvNets to their ability to learn multiple layers of visual features from data. 
 
-In this work, we propose to use a ConvNet-based architecture to learn the ranking of images, using relatively annotated images on each attribute. Pairs of images with similar and/or different strengths of some particular attribute are presented to the network. The network  learns a series of visual features, which are known to work better than engineered visual features \cite{offtheshelf}. After learning the features, we further propose to add another layer to the network, to rank the images. The ranking layer could be learned through gradient descent (described in more details later). As a result, it would be possible to learn (or fine-tune) the features through back-propagation, while learning the ranking layer. Interweaving the two processes leads to a set of learned features that characterize each single attribute. This escalates the overall performance and is the main advantage of our proposed method over previous methods. 
+In this work, we propose to use a ConvNet-based architecture to learn the ranking of images, using relatively annotated images for each attribute. Pairs of images with similar and/or different strengths of some particular attribute are presented to the network. The network  learns a series of visual features, which are known to work better than engineered visual features \cite{offtheshelf}. After learning the features, we further propose to add another layer to the network, to rank the images. The ranking layer could be learned through gradient descent (described in more details later). As a result, it would be possible to learn (or fine-tune) the features through back-propagation, while learning the ranking layer. Interweaving the two processes leads to a set of learned features that characterize each single attribute. This escalates the overall performance and is the main advantage of our proposed method over previous methods. Furthermore, in almost all previous works on relative attributes, the training phase often can only handle inequality relations (\ie, one image being less or more strong, in terms of a specific attribute, than the other). The equality relation can happen quite frequently when humans are qualitatively deciding about the relations of attributes in images. In previous works this is not explored, even in some, the equality relation could not be incorporated in the training phase, due to method limitations. Our proposed method introduces an easy and elegant way to deal with equality relations (\ie an attribute is similarly strong in two images).
 %%%%%%%%%%%% spatial extent shall be removed from the paper
 %It is noteworthy to pinpoint that by exploiting the saliency maps of the unsupervised learned features for each attribute, similar to \cite{simonyan14a}, we can discover the spatial extent \cite{specialextent} of the attribute. %This is done using the same network in an unsupervised manner.
 %%%%%%%%%%%% spatial extent shall be removed from the paper
