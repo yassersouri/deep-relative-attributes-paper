@@ -8,9 +8,9 @@
 
 We propose to use a ConvNet based deep neural network that is trained to optimize the appropriate ranking loss for the task of predicting relative attribute strength. The network architecture consists of two parts, the \textit{feature learning and extraction} part and the \textit{ranking} part.
 
-The feature learning and extraction part takes an image, $I_i$, as input and outputs the learned feature representation for that image $\psi_i \in \mathcal{R}^d$.
+The feature learning and extraction part takes an image, $I_i$, as input and outputs the learned feature representation for that image $\psi_i \in \mathbb{R}^d$.
 % (Figure \ref{fig.2}).
-Different methods have been developed in the literature, for extracting and leaning features in a deep framework. The outputs of some intermediate layer of a state-of-the-art ConvNet architecture, such as AlexNet \cite{krizhevski}, VGGNet \cite{verydeep} or GoogleNet \cite{googlenet},
+Different methods have been developed in the literature, for extracting and leaning features in a deep framework. The outputs of some intermediate layer of a state-of-the-art ConvNet architecture, such as AlexNet \cite{krizshevsky}, VGGNet \cite{verydeep} or GoogleNet \cite{googlenet},
 % can be counted as learned features.
 can be used.
 % Here, we have incorporated VGGNet and its fc7 layer, and learned the attribute-specific features. 
@@ -40,13 +40,33 @@ $$
 C_{ij} \equiv - t_{ij} \log (P_{ij}) - (1 - t_{ij}) \log (1 - P_{ij}),
 $$
 which is the binary cross entropy loss.
-Figure \ref{fig.2} plots the loss value $C_{ij}$ as a function of $r_i - r_j$ for three values of target probability $t_{ij} = \{0, 0.5, 1\}$.
+Figure \ref{fig.2} plots the loss value $C_{ij}$ as a function of $r_i - r_j$ for three values of target probability $t_{ij} = \{0, 0.5, 1\}$. For comparison let's consider the squared loss
+$$
+R_{ij} = \big[(r_i - r_j) - t_{ij}\big]^2
+$$
+which is typically used for regression (Figure \ref{fig.2}). We see that the regression loss forces the difference of rank estimates to be a specific value and disallows over estimation. Further more its quadratic natures makes it very sensitive to noise. This shed light into why regression objective is the wrong objective to optimize when the goal is ranking.
+
+% \begin{figure}
+% \centering
+% \begin{subfigure}[b]
+%     \includegraphics{fig2-2/fig3.eps}
+%     \caption{The loss value for three values of the target probability.}
+% \end{subfigure}
+% \label{fig.2}
+% \end{figure}
 
 \begin{figure}
-\centering
-\includegraphics[width=8cm]{fig2-2/fig3.eps}
-\caption{The loss value for three values of the target probability.}
-\label{fig.2}
+    \centering
+    \begin{subfigure}
+        \centering
+        \includegraphics[width=4cm]{fig2-2/fig3.eps}
+    \end{subfigure}
+    \begin{subfigure}
+        \centering
+        \includegraphics[width=4cm]{fig2-2/fig3-reg.eps}
+    \end{subfigure}
+    \caption{Left: The ranking loss value for three values of the target probability. Right: The square loss value for three values of the target probability, typically used for regression.}
+    \label{fig.2}
 \end{figure}
 
 Note that when $t_{ij} = 0.5$, and no information is available about the relative rank of the two samples, the cost becomes symmetric. This can be used as a way to train on patterns that are desired to have similar rank. This is somewhat scarce in the previous works on relative attributes, where the relation between the attributes were mostly considered to be less or greater. In other words, in the previous works, equality relation was not much explored.
@@ -78,7 +98,7 @@ For testing, we only need to estimate the value of $f(\psi_i)$, which resembles 
 
 \begin{tikzpicture}
     % feature extraction part rectangle
-	\node [scale=3] (testtitle) at (10.5cm, 5.0cm) {\textcolor{red}{Test time}};
+%	\node [scale=3] (testtitle) at (10.5cm, 5.0cm) {\textcolor{red}{Test time}};
 	\draw [rounded corners=1cm, dashed, line width=3, red] (-3.5cm, 4cm) rectangle (24.5cm,-2.5cm);
 	% images
 	\node (im1) at (0cm,1cm) [draw] {\includegraphics[scale=1]{Fig2/im1.jpg}};
@@ -160,18 +180,18 @@ For testing, we only need to estimate the value of $f(\psi_i)$, which resembles 
 	% connect bxent to loss
 	\draw [line width=3, ->] (bxent.east) -- node [above, scale=3] {$C_{ij}$}  (loss.west);
 \end{tikzpicture}}
-\caption{The overall schematic view of the proposed method during training. During test time a sub-network annotated with the red dotted box is used. The network consists of two parts, the \textit{feature extraction} part (labeled ConvNet in the figure), and the \textit{ranking} part.}
+\caption{The overall schematic view of the proposed method during training. Each of the images are presented to the network and the network learns the parameters. During test time a sub-network annotated with the red dotted box is used. The network consists of two parts, the \textit{feature learning and extraction} part (labeled ConvNet in the figure), and the \textit{ranking} part (the Ranking Layer).}
 \label{fig.3}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our final model is depict in figure \ref{fig.3} which is trained for each attribute separately. During training pairs of images $(I_i, I_j)$ are presented to the network, together with the target probability $t_{ij}$. If $I_i \triangleright I_j$ for the attribute, then $t_{ij}$ is  set to be larger than $0.5$ depending on our confidence on the relative ordering of $I_i$ and $I_j$. Similarly if $I_i \triangleleft I_j$, then $t_{ij}$ is set to be smaller than $0.5$ and if it is desired that the two images have the same rank, $t_{ij}$ is set to $0.5$. Because of the nature of the datasets we chose $t_{ij}$ from the $\{1, 0.5, 0 \}$ set according to the annotations of the dataset.
+Our proposed model is depicted in figure \ref{fig.3}. The model is trained separately, for each attribute. During training pairs of images $(I_i, I_j)$ are presented to the network, together with the target probability $t_{ij}$. If $I_i \triangleright I_j$ for the attribute, then $t_{ij}$ is  set to be larger than $0.5$ depending on our confidence on the relative ordering of $I_i$ and $I_j$. Similarly, if $I_i \triangleleft I_j$, then $t_{ij}$ is set to be smaller than $0.5$, and if it is desired that the two images have the same rank, $t_{ij}$ is set to $0.5$. Because of the nature of the datasets we chose $t_{ij}$ from the set $\{1, 0.5, 0 \}$, according to the available annotations in the dataset.
 
-The pair of images then go though the feature learning and extraction part of the network (ConvNet) that maps the images into feature vectors $\psi_i$ and $\psi_j$. Further these feature vectors go through the ranking layer as described in section \ref{sec3.1}. We choose the ranking layer to be a fully connected neural network layer with linear activation function, 1 output neuron and parameters $w$ and $b$ that maps the feature vector $\psi_i$ to the estimated absolute rank of that feature vector $r_i$ where
+The pair of images, then, go though the feature learning and extraction part in the network (ConvNet). This procedure maps the images into feature vectors $\psi_i$ and $\psi_j$. Afterwards, these feature vectors go through the ranking layer, as described in section \ref{sec3.1}. We choose the ranking layer to be a fully connected neural network layer with linear activation function, one output neuron and parameters $w$ and $b$. It maps the feature vector $\psi_i$ to the estimated absolute rank of that feature vector $r_i$, where
 $$
 r_i \equiv w^T x + b
 $$
 and $r_i \in \mathbb{R}$.
-The two estimate ranks are then combined to output the estimated posterior probability $P(\psi_i \triangleright \psi_j)$ and is used along with the target probability $t_{ij}$ to calculate the loss. This loss is then back-propagated through the network and is used to update the parameters of the whole network including both the parameters of the feature learning and extraction sub-network and the ranking layer.
+The two estimate ranks are then combined to output the estimated posterior probability $P(\psi_i \triangleright \psi_j)$ and is used along with the target probability $t_{ij}$ to calculate the loss. This loss is then back-propagated through the network and is used to update the parameters of the whole network, including both the parameters of the feature learning and extraction sub-network and the ranking layer.
 
-During test time, as shown in Figure \ref{fig.3}, we only need to calculate the estimated absolute rank $r_i$ for each test image $I_i$. Using these estimated absolute ranks we can then easily predict the relative attribute strength for all test pairs.
+During test time, as shown in Figure \ref{fig.3}, we only need to calculate the estimated absolute rank $r_i$ for each test image $I_i$. Using these estimated absolute ranks we can then easily predict the relative attribute strengths, for all test pairs.
