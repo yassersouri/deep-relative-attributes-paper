@@ -1,0 +1,88 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{subfigure}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mathrsfs}
+\usepackage{soul}
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage{tabularx}
+\usepackage[tableposition=top]{caption}
+\usepackage{pbox}
+
+%\usepackage[sort&compress,square,comma]{natbib}
+
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{filecontents,pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{shapes,matrix,arrows,decorations.pathmorphing, positioning, calc, decorations.markings}
+\usepackage{sci}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+
+%\cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{725} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+\ifcvprfinal\pagestyle{empty}\fi
+\begin{document}
+
+%%%%%%%%% TITLE
+\title{Deep Relative Attributes}
+
+\author{First Author\\
+Institution1\\
+Institution1 address\\
+{\tt\small firstauthor@i1.org}
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+\and
+Second Author\\
+Institution2\\
+First line of institution2 address\\
+{\tt\small secondauthor@i2.org}
+}
+
+\maketitle
+%\thispagestyle{empty}
+
+%%%%%%%%% ABSTRACT
+\begin{abstract}
+Visual attributes are great means of describing images or scenes, in a way both humans and computers understand. In order to establish a correspondence between images and to be able to compare the strength of each property between images, relative attributes were introduced. However, ever since their introduction, hand-crafted and engineered features were used to learn complex models for the attributes. This limits the applicability of those methods for more realistic cases. In this paper, we propose a deep neural network strategy to rank images, based on a set of learned attribute-specific features. A convolutional neural network (ConvNet) architecture is adopted to learn the features and an additional layer (ranking layer) learns to rank the images, based on these features. Therefore, our proposed model enjoys a unified deep neural network model, in which both feature learning and ranking are intertwined, influencing each other while enhancing the overall performance. We use all publicly-available fine-grained and coarse-grained relative attribute datasets, and evaluate our method. Our proposed method outperforms the baseline and state-of-the-art methods, which shows that the learned features can better characterize the attributes.
+\end{abstract}
+
+
+\input{arxiv-Introduction}
+\input{arxiv-2RelatedWorks}
+\input{arxiv-3ProposedMethod}
+\input{arxiv-4Experiments}
+\input{arxiv-5Conclusion}
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{refs}
+}
+
+\end{document}
