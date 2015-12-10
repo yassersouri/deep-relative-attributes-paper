@@ -1,5 +1,5 @@
 
-% !TeX root=DeepRelAttr.tex
+% !TeX root=arXiv.tex
 % !TEX TS-program = pdfLatex
 
 %%%%%%%%%%%%%%%%%%%%% EXPERIMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -7,7 +7,7 @@
 
 To evaluate our proposed method, we compare it with the state-of-the art methods, as well as an informative baseline.
 
-\subsection{Datasets}
+\subsection{Datasets}\label{sec.4.1}
 
 \begin{figure*}
 \scalebox{.4}
@@ -244,7 +244,7 @@ Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50k-1 and Zap
 \label{tab:zap2}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Saliency Maps and Localizing the Attributes}
+\subsection{Saliency Maps and Localizing the Attributes} \label{sec.4.5}
 
 We have also used the method of \cite{saliency} to visualize the the saliency of each attribute. Giving two image as inputs to the network we take the derivative of the estimated posterior with respect to the inputs and visualize them. Figure \ref{fig.5} shows some sample visualization. Using this visualization we can localize the attribute using the same network that was learn to rank the attributes in an unsupervised manner.
 
