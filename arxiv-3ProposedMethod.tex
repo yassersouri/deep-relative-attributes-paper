@@ -76,6 +76,7 @@ Furthermore, this model asymptotically converges to a linear function which make
 Training this model is possible using stochastic gradient descent or its variants like RMSProp.%, which is also used in our proposed method.
 While testing, we only need to estimate the value of $f(\psi_i)$, which resembles the absolute rank of the test sample. Using $f(\psi_i)$s, we can easily infer the relative ordering or absolute ordering of test pairs.
 
+
 \subsection{Deep Relative Attributes}\label{sec3.2}
 
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -185,7 +186,7 @@ While testing, we only need to estimate the value of $f(\psi_i)$, which resemble
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[b]
+\begin{figure}
 \centering
 \scalebox{.275}
 {
@@ -258,3 +259,5 @@ which is used along with the target probability $t_{ij}$ to calculate the loss. 
 
 During testing, %test time,
 as shown in Figure \ref{fig.4}, we only need to calculate the estimated absolute rank $r_k$ for each test image $I_k$. Using these estimated absolute ranks we can then easily infer the relative or absolute attribute ordering, for all test pairs.
+
+

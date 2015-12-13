@@ -5,14 +5,15 @@
 %%%%%%%%%%%%%%%%%%%%% EXPERIMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}\label{sec.4}
 
-To evaluate our proposed method, we compare it quantitatively with the state-of-the art methods, as well as an informative baseline on all publicly available benchmarks for relative attributes to our knowledge. Furthermore, we perform multiple qualitative experiments to show the ability and superiority of our method.
+To evaluate our proposed method, we quantitatively compare it  with the state-of-the art methods, as well as an informative baseline on all publicly available benchmarks for relative attributes to our knowledge. Furthermore, we perform multiple qualitative experiments to show the %ability
+capability and superiority of our method.
 
 \subsection{Datasets}\label{sec.4.1}
 
-To assess the performance of the proposed method, we have evaluated it on all publicly available datasets to our knowledge: \textbf{Zappos50K} \cite{Yu2014} (both coarse and fine-grained versions), \textbf{LFW-10} \cite{Sandeep_2014_CVPR} and for the sake of completeness and comparison with previous works, on \textbf{PubFig} and \textbf{OSR} datasets of \cite{parikh2011}.
+To assess the performance of the proposed method, we have evaluate it on all publicly available datasets to our knowledge: \textbf{Zappos50K} \cite{Yu2014} (both coarse and fine-grained versions), \textbf{LFW-10} \cite{Sandeep_2014_CVPR} and for the sake of completeness and comparison with previous works, on \textbf{PubFig} and \textbf{OSR} datasets of \cite{parikh2011}.
 
-\textbf{UT-Zap50K} \cite{Yu2014} dataset is a collection of images with annotations for relative comparison of 4 attributes. This dataset contains two collections: Zappos50K-1 where relative attributes are annotated for coarse pairs where the comparison is relatively easy to make, and Zappos50K-2 where relative attributes are annotated for fine-grained pairs for which making the distinction between them is hard according to human annotators.
-Training set for Zappos50K-1 contains approximately 1500 to 1800 annotated pairs of images for each attribute. These are divided into 10 train/test splits which are provided alongside the dataset and used in this work. Meanwhile, Zappos50K-2 only contains a test set of approximately 4300 pairs, and for training the set of images in Zappos50K-1 are used.
+\textbf{UT-Zap50K} \cite{Yu2014} dataset is a collection of images with annotations for relative comparison of 4 attributes. This dataset contains two collections: Zappos50K-1, in which relative attributes are annotated for coarse pairs, where the comparisons are relatively easy to interpret, and Zappos50K-2, where relative attributes are annotated for fine-grained pairs, for which making the distinction between them is hard according to human annotators.
+Training set for Zappos50K-1 contains approximately 1500 to 1800 annotated pairs of images for each attribute. These are divided into 10 train/test splits which are provided alongside the dataset and used in this work. Meanwhile, Zappos50K-2 only contains a test set of approximately 4300 pairs, which are used for training the set of images in Zappos50K-1.
 % This dataset consists of two collections, namely UT-Zap50K-1, in which \textit{coarse} relative attributes are compared for image pairs, and UT-Zap50K-2, in which \textit{fine-grained} relative attributes are compared for image pairs.
 
 We have also conducted experiments on the \textbf{LFW-10} \cite{Sandeep_2014_CVPR} dataset. This dataset has 2000 images of faces of people and annotations for 10 attributes. For each attribute, a random subset of 500 pairs of images have been annotated for each train and test set.
@@ -25,18 +26,18 @@ In our experiments, we have used the provided train/test split of PubFig and OSR
 
 
 \subsection{Experimental setup}
-We train our proposed model (described in Section \ref{sec.3}) for each attribute, separately. While it is possible  to train multiple attributes at the same time, however, this is not done due to the structure of datasets, where for each training pair of images only a certain attribute is annotated.
+We train our proposed model (described in Section \ref{sec.3}) for each attribute, separately. In our propoised model, it is possible  to train multiple attributes at the same time, however, this is not done due to the structure of datasets, where for each training pair of images only a certain attribute is annotated.
 
-We have used the Lasagne \cite{lasagne} deep learning framework to to implement our model.
+We have used the Lasagne \cite{lasagne} deep learning framework to implement our model.
 In all our experiments, for the feature learning and extraction part of the network,
 %we use layer fc7 of VGG-16 model of \cite{verydeep} (the last layer before the probability layer).
-we use the VGG-16 model of \cite{verydeep} and trim out the probability layer (all layers up to fc7 are used but the probability layer is not included).
-We initialize the weights of the model using a pretrained model on ILSVRC 2014 dataset \cite{ilsvrc2014} for the task of image classification. These weights get fine-tuned as the network learns to predict the relative attributes (see section \ref{sec.qres}). The weights $w$ of the ranking layer are initialized using the Xavier method \cite{glorot}, and the bias is initialized to 0.
+we use the VGG-16 model of \cite{verydeep} and trim out the probability layer (all layers up to fc7 are used, only the probability layer is not included).
+We initialize the weights of the model using a pretrained model on ILSVRC 2014 dataset \cite{ilsvrc2014} for the task of image classification. These weights are fine-tuned as the network learns to predict the relative attributes (see section \ref{sec.qres}). The weights $w$ of the ranking layer are initialized using the Xavier method \cite{glorot}, and the bias is initialized to 0.
 
 For training, we use stochastic gradient descent with RMSProp \cite{Tieleman2012} updates and minibatches of size 32 (16 pair of images).
-We set the learning rate for all experiments to $10^{-4}$ (for all weights and biases both the feature learning and extraction layers and the ranking layer), initially, then RMSProp changes the learning rates according to its algorithm. We have also used weight decay ($\ell_2$ norm regularization), with a fixed $0.005$ multiplier. Furthermore when calculating the binary cross entropy loss we clip the estimated posterior $p_{ij}$ to be in the range $[10^{-7}, 1 - 10^{-7}]$. This is used to prevent the loss from diverging.
+We set the learning rate for all experiments to $10^{-4}$ (for all weights and biases both the feature learning and extraction layers and the ranking layer), initially, then RMSProp changes the learning rates according to its algorithm. We have also used weight decay ($\ell_2$ norm regularization), with a fixed $0.005$ multiplier. Furthermore, when calculating the binary cross entropy loss, we clip the estimated posterior $p_{ij}$ to be in the range $[10^{-7}, 1 - 10^{-7}]$. This is used to prevent the loss from diverging.
 
-In each epoch, we randomly shuffle the training pairs. The number of epochs of training were chosen to reflect the training size. For Zappos50K and LFW-10 datasets, we train for 5 and 50 epochs, respectively. For PubFig and OSR datasets, we train for 120 epochs due to the small number of training samples. Also we have added random horizontal flipping of the training images as a way to augment the training set for the PubFig and OSR datasets.
+In each epoch, we randomly shuffle the training pairs. The number of epochs of training were chosen to reflect the training size. For Zappos50K and LFW-10 datasets, we train for 5 and 50 epochs, respectively. For PubFig and OSR datasets, we train for 120 epochs due to the small number of training samples. Also, we have added random horizontal flipping of the training images as a way to augment the training set for the PubFig and OSR datasets.
 
 \subsection{Baseline}
 
@@ -95,7 +96,7 @@ Table \ref{tab:pubfig} shows our results on the PubFig dataset. On this dataset,
 \end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Table \ref{tab:lfw} shows our results on the LFW-10 dataset. On this dataset, our method outperforms the state-of-the-art by a large margin. Meanwhile, the baseline cannot achieve a comparative result. This shows that for achieving good results, the feature learning part have had a large impact.
+Table \ref{tab:lfw} shows our results on the LFW-10 dataset. On this dataset, our method outperforms the state-of-the-art by a large margin. Meanwhile, the baseline cannot achieve a comparative result. This shows that for achieving good results, the feature learning and extraction part have had a large impact.
 
 %%%%%%%%%%%%%%%%%%%%%%% LFW-10 RESULTS %%%%%%%%%%%%%%%%%%
 \begin{table*}[t!]
@@ -118,7 +119,7 @@ Table \ref{tab:lfw} shows our results on the LFW-10 dataset. On this dataset, ou
 \end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zappos50K-2 datasets, respectively. Our method, again, achieves the state-of-the-art accuracy on both fine-grained and coarse datasets. However, our baseline method does not achieve a good result on this dataset. We think this is due to the fact that the images in the Zappos50K dataset are not natural images. So the extracted features in the baseline method are not appropriate for ranking. But our proposed method learns appropriate features for the task, given the large amount of training data available in this dataset.
+Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zappos50K-2 datasets, respectively. Our method, again, achieves the state-of-the-art accuracy on both fine-grained and coarse-grained datasets. However, our baseline method does not achieve a good result on this dataset. We would assume this is due to the fact that the images in the Zappos50K dataset are not natural images. So the extracted features in the baseline method are not appropriate for ranking. But our proposed method learns appropriate features for the task, given the large amount of training data available in this dataset.
 
 %%%%%%%%%%%%%%%%%%%%%% Zap50K-1 RESULTS %%%%%%%%%%%%%%%%
 \begin{table}[h]
@@ -274,21 +275,22 @@ Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zap
 % 	\node [right=0.5cm of attr8im6] (attr8im7) {\includegraphics[width=4cm, height=4cm]{spectrum/attr8/im7.jpg}};
 % 	\node [right=0.5cm of attr8im7] (attr8im8) {\includegraphics[width=4cm, height=4cm]{spectrum/attr8/im8.jpg}};
 \end{tikzpicture}}
-\caption{Images are ordered according to the value of their respective attributes.}
+\caption{Sample images from different datasets, ordered according to the predicted value of their respective attribute.}
 \label{figspectrum}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%% Figure 5 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our proposed method uses a deep network with two parts, the feature learning and extraction part and the ranking part. During training, not only the weights for the ranking part are learned, but also the weights for the feature learning and extraction part of the network, which were initialized using a pretrained network, are fine-tuned. By fine-tuning the features, our network learns a set of features that are more appropriate for the images of that particular dataset and attribute. To show the effectiveness of fine-tuning the features of the feature learning and extraction part of the network, we have projected them into 2-D space using the t-SNE \cite{van2008visualizing} method, as can be seen in Figure \ref{featspace}. The visualizations on the top of each figure show the images projected into 2-D space from the fine-tuned feature space. Each image is displayed as a point. It is clear from these visualizations that fine-tuned feature space is better in capturing the ordering of images with respect to the respective attribute. Since t-SNE embedding is a non-linear embedding, relative distances between points in the high-dimensional space and the low-dimensional embedding space are preserved, thus close points in the low-dimensional embedding space are also close to each other in the high-dimensional space. It can therefore be seen that fine-tuning indeed changes the feature space such that images with similar values of the respective attribute get projected into a close vicinity of the feature space. However, in the original feature space, images are projected according to their visual content, regardless of their value of the attribute.
+Our proposed method uses a deep network with two parts, the feature learning and extraction part and the ranking part. During training, not only the weights for the ranking part are learned, but also the weights for the feature learning and extraction part of the network, which were initialized using a pretrained network, are fine-tuned. By fine-tuning the features, our network learns a set of features that are more appropriate for the images of that particular dataset, along with the attribute of interest. To show the effectiveness of fine-tuning the features of the feature learning and extraction part of the network, we have projected them into 2-D space using the t-SNE \cite{van2008visualizing} method, as can be seen in Figure \ref{featspace}. The visualizations on the top of each figure show the images projected into 2-D space from the fine-tuned feature space. Each image is displayed as a point. It is clear from these visualizations that fine-tuned feature space is better in capturing the ordering of images with respect to the respective attribute. Since t-SNE embedding is a non-linear embedding, relative distances between points in the high-dimensional space and the low-dimensional embedding space are preserved, thus close points in the low-dimensional embedding space are also close to each other in the high-dimensional space. It can, therefore, be seen that fine-tuning indeed changes the feature space such that images with similar values of the respective attribute get projected into a close vicinity of the feature space. However, in the original feature space, images are projected according to their visual content, regardless of their value of the attribute.
 
 Another property of our network is that it can achieve a total ordering of images, given a set of pairwise orderings. In spite of the fact that training samples are pairs of images annotated according to their relative value of the attribute, the network can generalize the relativity of attribute values to other pairs of images. Figure \ref{figspectrum} shows that images can be ordered according to their value of the respective attribute. 
 
 \subsection{Saliency Maps and Localizing the Attributes} \label{sec.4.5}
 
-We have also used the method of \cite{saliency} to visualize the saliency of each attribute. Giving two image as inputs to the network we take the derivative of the estimated posterior with respect to the input images and visualize them. Figure \ref{fig.5} shows some sample visualization for the LFW-10 dataset's test pairs. To generate this figure we have have applied Gaussian smoothing to the saliency map.
-Using this visualization we can localize the attribute using the same network that was trained to rank the attributes in an unsupervised manner, \ie, although we haven't explicitly trained our network to localize the salient and informative regions of the image, however, it has implicitly learned to find these regions. We see that this technique is able to localize both easy attributes such as "Open Eyes" and abstract attributes such as "Good Looking". Our approach reveals some interesting properties about salient pixels for each attribute. For example, for the attribute "Open Eyes", not only pixels belonging to the eye are salient, but also the pixels which belong to the mouth are salient, because the person with open mouth usually has open eyes.
+We have also used the method of \cite{saliency} to visualize the saliency of each attribute. Giving two image as inputs to the network, we take the derivative of the estimated posterior with respect to the input images and visualize them. Figure \ref{fig.5} shows some sample visualization for the LFW-10 dataset's test pairs. To generate this figure we have applied Gaussian smoothing to the saliency map.
+Using this visualization, we can localize the attribute using the same network that was trained to rank the attributes in an unsupervised manner, \ie, although we haven't explicitly trained our network to localize the salient and informative regions of the image, %however,
+it has implicitly learned to find these regions. We see that this technique is able to localize both easy attributes such as "Open Eyes" and abstract attributes such as "Good Looking". Our approach reveals some interesting properties about salient pixels for each attribute. For example, for the attribute "Open Eyes", not only pixels belonging to the eye are salient, but the pixels which belong to the mouth are also salient. This is because the person with open mouth usually has open eyes.
 
-\begin{figure}
+\begin{figure}[th!]
 \captionsetup[subfigure]{labelformat=empty}
     \centering
     \begin{subfigure}
@@ -330,6 +332,6 @@ Using this visualization we can localize the attribute using the same network th
         }{Good Looking}
     \end{subfigure}
     
-    \caption{Saliency maps obtained from the network. First we feed two test images into the network and compute the derivative of the estimated posterior with respect to the pair of input images and use the method of \cite{saliency} to visualize salient pixels with  Gaussian smoothing. In each row the two input images from the LFW-10 test set with their corresponding overlaid saliency maps are shown (the warmer the color of the overlay image, the more salient that pixel is).}
+    \caption{Saliency maps obtained from the network. First we feed two test images into the network and compute the derivative of the estimated posterior with respect to the pair of input images and use the method of \cite{saliency} to visualize salient pixels with  Gaussian smoothing. In each row, the two input images from the LFW-10 test set with their corresponding overlaid saliency maps are shown (the warmer the color of the overlay image, the more salient that pixel is).}
     \label{fig.5}
 \end{figure}
