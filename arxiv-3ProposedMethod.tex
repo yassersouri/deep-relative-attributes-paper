@@ -70,15 +70,6 @@ sensitive to noise. This sheds light into why regression objective is the wrong 
     \label{fig.2}
 \end{figure}
 
-Note that when $t_{ij} = 0.5$, and no information is available about the relative rank of the two samples, the ranking cost becomes symmetric. This can be used as a way to train on patterns that are desired to have similar ranks. This is somewhat scarce in the previous works on relative attributes.
-Furthermore, this model asymptotically converges to a linear function which makes it more appropriate for problems with noisy labels. %than quadratic loss functions.
-
-Training this model is possible using stochastic gradient descent or its variants like RMSProp.%, which is also used in our proposed method.
-While testing, we only need to estimate the value of $f(\psi_i)$, which resembles the absolute rank of the test sample. Using $f(\psi_i)$s, we can easily infer the relative ordering or absolute ordering of test pairs.
-
-
-\subsection{Deep Relative Attributes}\label{sec3.2}
-
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}
 \centering
@@ -184,6 +175,17 @@ While testing, we only need to estimate the value of $f(\psi_i)$, which resemble
 \label{fig.3}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Note that when $t_{ij} = 0.5$, and no information is available about the relative rank of the two samples, the ranking cost becomes symmetric. This can be used as a way to train on patterns that are desired to have similar ranks. This is somewhat scarce in the previous works on relative attributes.
+Furthermore, this model asymptotically converges to a linear function which makes it more appropriate for problems with noisy labels. %than quadratic loss functions.
+
+Training this model is possible using stochastic gradient descent or its variants like RMSProp.%, which is also used in our proposed method.
+While testing, we only need to estimate the value of $f(\psi_i)$, which resembles the absolute rank of the test sample. Using $f(\psi_i)$s, we can easily infer the relative ordering or absolute ordering of test pairs.
+
+
+\subsection{Deep Relative Attributes}\label{sec3.2}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
