@@ -1,0 +1,61 @@
+% Updated in February 2016 by Hwann-Tzong Chen
+% Updated in May 2014 by Hideo Saito
+% Updated in March 2012 by Yasuyuki Matsushita
+% Updated in April 2002 by Antje Endemann, ...., and in March 2010 by Reinhard Klette
+% Based on CVPR 07 and LNCS style, with modifications by DAF, AZ and elle 2008, AA 2010, ACCV 2010
+
+\documentclass[runningheads]{llncs}
+\usepackage{amsmath,amssymb} % define this before the line numbering.
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage[tableposition=top]{caption}
+\usepackage{tikz}
+\usetikzlibrary{shapes,matrix,arrows,decorations.pathmorphing, positioning, calc, decorations.markings}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{stackengine}
+\usepackage[pagebackref=false,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+\usepackage{soul,color}
+% Fixed according to this answer on StackOverflow: 
+% http://tex.stackexchange.com/questions/76314/everyshipout-errors-when-using-tikz-with-conference-style
+\usepackage{ruler} % This package is required for the submission, but it conflicts with tikz package. I haven't yet found a solution to resolve this issue, but I will try to do so.
+\newcommand{\etal}{\textit{et al}.}
+\newcommand{\ie}{\textit{i}.\textit{e}.}
+\newcommand{\eg}{\textit{e}.\textit{g}.}
+
+%===========================================================
+\begin{document}
+\pagestyle{headings}
+\mainmatter
+
+\def\ACCV16SubNumber{105}  % Insert your submission number here
+
+%===========================================================
+\title{Deep Relative Attributes} % Replace with your title
+\titlerunning{ACCV-16 submission ID \ACCV16SubNumber}
+\authorrunning{ACCV-16 submission ID \ACCV16SubNumber}
+
+\author{Anonymous ACCV 2016 submission}
+\institute{Paper ID \ACCV16SubNumber}
+
+\maketitle
+
+%===========================================================
+\begin{abstract}
+Visual attributes are great means of describing images or scenes, in a way both humans and computers understand. In order to establish a correspondence between images and to be able to compare the strength of each property between images, relative attributes were introduced. However, since their introduction, hand-crafted and engineered features were used to learn increasingly complex models for the problem of relative attributes. This limits the applicability of those methods for more realistic cases. We introduce a deep neural network architecture for the task of relative attribute prediction. A convolutional neural network (ConvNet) is adopted to learn the features by including an additional layer (ranking layer) that learns to rank the images based on these features. We adopt an appropriate ranking loss to train the whole network in an end-to-end fashion. Our proposed method outperforms the baseline and state-of-the-art methods in relative attribute prediction on various coarse and fine-grained datasets. Our qualitative results along with the visualization of the saliency maps show that the network is able to learn effective features for each specific attribute. %Further investigation through visualizing the saliency maps shows that the model is able to learn effective features for the task. 
+%This is investigated through visualizing the saliency maps for each attribute from the learned models. %Furthermore, we use our trained models to visualize saliency maps for each attribute.
+\end{abstract}
+%===========================================================
+\input{1Introduction}
+\input{2RelatedWorks}
+\input{3ProposedMethod}
+\input{4Experiments}
+\input{5Conclusion}
+
+\bibliographystyle{splncs}
+\bibliography{refs}
+
+%this would normally be the end of your paper, but you may also have an appendix
+%within the given limit of number of pages
+\end{document}
