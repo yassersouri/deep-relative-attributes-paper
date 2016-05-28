@@ -7,7 +7,8 @@ The feature learning and extraction part takes a fixed size image, $I_i$, as inp
 %Different network architectures have been developed in the literature over the past few years, for extracting and learning features in a deep framework that almost all of them are applicable. 
 Over the past few years, different network architectures for computer vision problems have been developed. These deep architectures can be used for extracting and learning features for different applications.
 For the current work, outputs of an intermediate layer, like the last layer before the probability layer, from a ConvNet architecture (\eg, AlexNet \cite{Krizhevsky2012ImageNetCW}, VGGNet \cite{verydeep} or GoogLeNet \cite{googlenet}) can be incorporated. %used.
-\hl{Please include one or two sentences here to show the network architecture you use here. How many conv layers, how many full connected layers!?}
+% \hl{Please include one or two sentences here to show the network architecture you use here. How many conv layers, how many full connected layers!?}
+In our experiments we use the VGG-16 architecture \cite{verydeep} with the last fully connected layer (the class probabilities) removed. This architecture takes as input a 224x224 RGB image and consists of 13, 3x3 convolutional layers with max pooling layers in between. In addition, it has 2 fully connected layers on top of the convolutional layers. For details on the architecture see \cite{verydeep}.
 
 One of the most widely used models for relative attributes in the literature is RankSVM \cite{Joachims2002}. However,
 %here, we want a neural network based ranking procedure that accepts relatively ordered pairs of feature vectors as input during training,
@@ -79,7 +80,7 @@ Our proposed model is depicted in figure \ref{fig.3}. The model is trained separ
 
 
 %%%%%%%%%%%%%%%%%%%%%%%% Figure 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}{t!}
+\begin{figure}
 \centering
 \resizebox{\linewidth}{!}
 {
