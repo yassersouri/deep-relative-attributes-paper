@@ -11,7 +11,7 @@
 \usepackage{tabularx}
 \usepackage[tableposition=top]{caption}
 \usepackage{tikz}
-\usetikzlibrary{shapes,matrix,arrows,decorations.pathmorphing, positioning, calc, decorations.markings}
+\usetikzlibrary{shapes,matrix,arrows,decorations.pathmorphing, positioning, calc, decorations.markings,arrows.meta}
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{stackengine}
@@ -40,22 +40,22 @@
 
 \titlerunning{Deep Relative Attributes} % Replace with your title
 
-\authorrunning{Authors} % Replace with your names
+\authorrunning{Yaser Souri, Erfan Noury, Ehsan Adeli} % Replace with your names
 
-\author{Yaser Souri} % Replace with your names
-\institute{Sobhe} % Replace with your institute's address
+\author{Yaser Souri$^1$, Erfan Noury$^2$, Ehsan Adeli$^3$} % Replace with your names
+\institute{$^1$Sobhe \quad $^2$Sharif University of Technology \\ $^3$University of North Carolina at Chapel Hill} % Replace with your institute's address
 
-\author{Erfan Noury}
-\institute{Sharif University of Technology}
+% \author{Erfan Noury}
+% \institute{Sharif University of Technology}
 
-\author{Ehsan Adeli-Mosabbeb}
-\institute{University of North Carolina at Chapel Hill}
+% \author{Ehsan Adeli-Mosabbeb}
+% \institute{University of North Carolina at Chapel Hill}
 
 \maketitle
 
 %===========================================================
 \begin{abstract}
-Visual attributes are great means of describing images or scenes, in a way both humans and computers understand. In order to establish a correspondence between images and to be able to compare the strength of each property between images, relative attributes were introduced. However, since their introduction, hand-crafted and engineered features were used to learn increasingly complex models for the problem of relative attributes. This limits the applicability of those methods for more realistic cases. We introduce a deep neural network architecture for the task of relative attribute prediction. A convolutional neural network (ConvNet) is adopted to learn the features by including an additional layer (ranking layer) that learns to rank the images based on these features. We adopt an appropriate ranking loss to train the whole network in an end-to-end fashion. Our proposed method outperforms the baseline and state-of-the-art methods in relative attribute prediction on various coarse and fine-grained datasets. Our qualitative results along with the visualization of the saliency maps show that the network is able to learn effective features for each specific attribute.
+Visual attributes are great means of describing images or scenes, in a way both humans and computers understand. In order to establish a correspondence between images and to be able to compare the strength of each property between images, relative attributes were introduced. However, since their introduction, hand-crafted and engineered features were used to learn increasingly complex models for the problem of relative attributes. This limits the applicability of those methods for more realistic cases. We introduce a deep neural network architecture for the task of relative attribute prediction. A convolutional neural network (ConvNet) is adopted to learn the features by including an additional layer (ranking layer) that learns to rank the images based on these features. We adopt an appropriate ranking loss to train the whole network in an end-to-end fashion. Our proposed method outperforms the baseline and state-of-the-art methods in relative attribute prediction on various coarse and fine-grained datasets. Our qualitative results along with the visualization of the saliency maps show that the network is able to learn effective features for each specific attribute. Source code of the proposed method is available at \href{https://github.com/yassersouri/ghiaseddin}{https://github.com/yassersouri/ghiaseddin}.
 \end{abstract}
 
 %===========================================================
@@ -70,50 +70,46 @@ While binary visual attributes relate properties to entities (\eg, a dog being f
 \centering
 \scalebox{.3}
 {
-\begin{tikzpicture}
-    % pair 1
-    \node (p1A) {\includegraphics[scale=0.65]{pair1A.jpg}};
-    \node (p1op) [right=0.0cm of p1A, scale=3] {$>$};
-    \node (p1B) [right=-0.4cm of p1op] {\includegraphics[scale=0.65]{pair1B.jpg}};
+    \begin{tikzpicture}
+        % pair 1
+        \node (p1A) {\includegraphics[scale=0.65]{pair1A.jpg}};
+        \node (p1op) [right=0.0cm of p1A, scale=3] {$>$};
+        \node (p1B) [right=-0.4cm of p1op] {\includegraphics[scale=0.65]{pair1B.jpg}};
+        \node (training) [left=1cm of p1A, align=center, scale=4] {Training \\ set};
+        \draw[line width=2, rounded corners]($(p1A.north west)+(-0.0,0.5)$)  rectangle ($(p1B.south east)+(0.0,-0.5)$);
+        
+        % pair 2
+        \node (p2B) [right=0.0cm of p1B] {\includegraphics[scale=0.65] {pair2B.jpg}};
+        \node (p2op) [right=0.0cm of p2B, scale=3] {$<$};
+        \node (p2A) [right=-0.4cm of p2op] {\includegraphics[scale=0.65] {pair2A.jpg}};
+        \draw[line width=2, rounded corners] ($(p2B.north west)+(0.2,0.5)$) rectangle ($(p2A.south east)+(0.0, -0.5)$);
 
-    \draw[line width=2, rounded corners] ($(p1A.north west)+(-0.0,0.5)$)  rectangle ($(p1B.south east)+(0.0,-0.5)$);
-    
-    % pair 2
-    \node (p2B) [right=0.0cm of p1B] {\includegraphics[scale=0.65] {pair2B.jpg}};
-    \node (p2op) [right=0.0cm of p2B, scale=3] {$<$};
-    \node (p2A) [right=-0.4cm of p2op] {\includegraphics[scale=0.65] {pair2A.jpg}};
+        % dots
+        \node (dots) [right=0.1cm of p2A, scale=4] {\dots};
 
-    \draw[line width=2, rounded corners] ($(p2B.north west)+(0.2,0.5)$) rectangle ($(p2A.south east)+(0.0, -0.5)$);
+        % pair3
+        \node (p3A) [right=0.0cm of dots] {\includegraphics[scale=0.65]{pair3B.jpg}};
+        \node (p3op) [right=0.0cm of p3A, scale=3] {$<$};
+        \node (p3B) [right=-0.4cm of p3op] {\includegraphics[scale=0.65]{pair3A.jpg}};
+        \draw[line width=2, rounded corners] ($(p3A.north west)+(-0.2,0.5)$) rectangle ($(p3B.south east)+(0.2, -0.5)$);
 
-    % dots
-    \node (dots) [right=0.1cm of p2A, scale=4] {\dots};
+        % Training phase box and label
+        \draw[line width=3, rounded corners=15pt, red!30] ($(p1A.north west)+(-0.4, 1)$) rectangle ($(p3B.south east)+(0.6, -1)$);
 
-    % pair3
-    \node (p3A) [right=0.0cm of dots] {\includegraphics[scale=0.65]{pair3B.jpg}};
-    \node (p3op) [right=0.0cm of p3A, scale=3] {$<$};
-    \node (p3B) [right=-0.4cm of p3op] {\includegraphics[scale=0.65]{pair3A.jpg}};
+        % bottom mid point
+        \path (p1A.south east) -- (p3B.south west) node (mid) [below=1cm, pos=0.5] {};
 
-    \draw[line width=2, rounded corners] ($(p3A.north west)+(-0.2,0.5)$) rectangle ($(p3B.south east)+(0.2, -0.5)$);
-
-    % Training phase box and label	
-% 	\draw[line width=2, rounded corners, red, loosely dotted] ($(p1A.north west)+(-0.4, 1)$) rectangle ($(p3B.south east)+(0.4, -1)$);
-
-% 	\path (p1A.north east) -- (p3B.north west) node [scale=3, above=1cm, pos=0.5] {Training};
-
-    % bottom mid point
-    \path (p1A.south east) -- (p3B.south west) node (mid) [below=1cm, pos=0.5] {};
-
-    % testing pair
-    \node (uop) [below=4cm of mid, scale=4] {$?$};
-    \node (puA) [left=0.5cm of uop] {\includegraphics[scale=1]{pairUA.jpg}};
-    \node (puB) [right=0.5cm of uop] {\includegraphics[scale=1]{pairUB.jpg}};
-    
-    \draw [line width=2, rounded corners=1cm, dashed] ($(puA.north west)+(-0.2, 0.5)$) rectangle ($(puB.south east)+(0.2, -0.5)$);
-    
-    % testing phase arrow
-    \path [draw, ->, line width=10] (mid.south) -- ($(uop.north) + (0cm, 2cm)$);	
-
-\end{tikzpicture}}
+        % testing pair
+        \node (uop) [below=4cm of mid, scale=4] {$?$};
+        \node (puA) [left=0.5cm of uop] {\includegraphics[scale=1]{pairUA.jpg}};
+        \node (puB) [right=0.5cm of uop] {\includegraphics[scale=1]{pairUB.jpg}};
+        \draw [line width=1, rounded corners=0.75cm] ($(puA.north west)+(-0.2, 0.5)$) rectangle ($(puB.south east)+(0.2, -0.5)$);
+        \node (test) [left=1cm of puA, align=center, scale=4] {Test \\ instance};
+        
+        % testing phase arrow
+        \draw [-{Latex[length=1.5cm]}, line width=10] (mid.south) -- ($(uop.north) + (0cm, 2cm)$);	
+    \end{tikzpicture}
+}
 \caption{Visual Relative Attributes. This figure shows samples of training pairs of images from the UT-Zap50K dataset, comparing shoes in terms of the \textit{comfort} attribute (top). The goal is to compare a pair of two novel images of shoes, respective to the same attribute (bottom).}
 \label{fig.1}
 \end{figure}
@@ -242,102 +238,89 @@ Our proposed model is depicted in figure \ref{fig.3}. The model is trained separ
 \centering
 \resizebox{\linewidth}{!}
 {
-% We need layers to draw the block diagram
-\pgfdeclarelayer{background}
-\pgfdeclarelayer{foreground}
-\pgfsetlayers{background,main,foreground}
+    \begin{tikzpicture}
+        % feature extraction part rectangle
+        % images
+        \node (im1) at (0cm,1cm)  {\includegraphics[scale=1.3]{Fig2_im1.jpg}};
+        \node (im2) at (0cm, -6cm)  {\includegraphics[scale=1]{Fig2_im2.jpg}};
 
-% Define a few styles and constants
-\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
-    text centered, minimum height=2.5em]
-\tikzstyle{ann} = [above, text width=5em]
-\tikzstyle{naveqs} = [sensor, text width=6em, fill=red!20, 
-    minimum height=12em, rounded corners]
-\def\blockdist{2.3}
-\def\edgedist{2.5}
+        % topconv1 layer
+        \node (tconv1) at (5.1cm, 1cm) {};
+        \draw [fill=blue!20, line width=2pt] (5cm,2.9cm) rectangle (9cm,-0.1cm);
+        \draw [fill=blue!20, line width=2pt] (5.2cm,2.7cm) rectangle (9.2cm,-0.3cm);
+        \draw [fill=blue!20, line width=2pt] (5.4cm,2.5cm) rectangle (9.4cm,-0.5cm);
 
-\begin{tikzpicture}
-    % feature extraction part rectangle
-  % images
-  \node (im1) at (0cm,1cm) [draw] {\includegraphics[scale=1]{Fig2_im1.jpg}};
-  \node (im2) at (0cm, -6cm) [draw] {\includegraphics[scale=1]{Fig2_im2.jpg}};
+        % bottomconv1 layer
+        \node (bconv1) at (5.1cm, -6cm) {};
+        \draw [fill=blue!20, line width=2pt] (5cm,-4.1cm) rectangle (9cm,-7.1cm);
+        \draw [fill=blue!20, line width=2pt] (5.2cm,-4.3cm) rectangle (9.2cm,-7.3cm);
+        \draw [fill=blue!20, line width=2pt] (5.4cm,-4.5cm) rectangle (9.4cm,-7.5cm);
 
-  % topconv1 layer
-  \node (tconv1) at (5.1cm, 1cm) {};
-%	\draw [fill=blue!20] (5.6cm,3.1cm) rectangle (9.6cm,0.1cm);
-  \draw [fill=blue!20] (5.4cm,2.9cm) rectangle (9.4cm,-0.1cm);
-  \draw [fill=blue!20] (5.2cm,2.7cm) rectangle (9.2cm,-0.3cm);
-  \draw [fill=blue!20] (5cm,2.5cm) rectangle (9cm,-0.5cm);
+        % arrows from images to conv1s
+        \path [draw, -Latex, line width=3] (im1.east) -- node [above, scale=3.2] {$I_i$} (tconv1);
+        \path [draw, -Latex, line width=3] (im2.east) -- node [above, scale=3.2] {$I_j$} (bconv1);
 
-  % bottomconv1 layer
-  \node (bconv1) at (5.1cm, -6cm) {};
-%	\draw [fill=blue!20] (5.6cm,-3.9cm) rectangle (9.6cm,-6.9cm);
-  \draw [fill=blue!20] (5.4cm,-4.1cm) rectangle (9.4cm,-7.1cm);
-  \draw [fill=blue!20] (5.2cm,-4.3cm) rectangle (9.2cm,-7.3cm);
-  \draw [fill=blue!20] (5cm,-4.5cm) rectangle (9cm,-7.5cm);
+        % topconv2 layer
+        \node (tconv2) at (12cm, 1cm) {};
+        \draw [fill=blue!20, line width=2pt] (12cm,3.1cm) rectangle (16cm,0.1cm);
+        \draw [fill=blue!20, line width=2pt] (12.2cm,2.9cm) rectangle (16.2cm,-0.1cm);
+        \draw [fill=blue!20, line width=2pt] (12.4cm,2.7cm) rectangle (16.4cm,-0.3cm);
+        \draw [fill=blue!20, line width=2pt] (12.6cm,2.5cm) rectangle (16.6cm,-0.5cm);
 
-  % arrows from images to conv1s
-  \path [draw, ->, line width=3] (im1.east) -- node [above, scale=3] {$I_i$} (tconv1);
-  \path [draw, ->, line width=3] (im2.east) -- node [above, scale=3] {$I_j$} (bconv1);
+        % bottomconv2 layer
+        \node (bconv2) at (12cm, -6cm) {};
+        \draw [fill=blue!20, line width=2pt] (12cm,-3.9cm) rectangle (16cm,-6.9cm);
+        \draw [fill=blue!20, line width=2pt] (12.2cm,-4.1cm) rectangle (16.2cm,-7.1cm);
+        \draw [fill=blue!20, line width=2pt] (12.4cm,-4.3cm) rectangle (16.4cm,-7.3cm);
+        \draw [fill=blue!20, line width=2pt] (12.6cm,-4.5cm) rectangle (16.6cm,-7.5cm);
 
-  % topconv2 layer
-  \node (tconv2) at (12cm, 1cm) {};
-  \draw [fill=blue!20] (12.6cm,3.1cm) rectangle (16.6cm,0.1cm);
-  \draw [fill=blue!20] (12.4cm,2.9cm) rectangle (16.4cm,-0.1cm);
-  \draw [fill=blue!20] (12.2cm,2.7cm) rectangle (16.2cm,-0.3cm);
-  \draw [fill=blue!20] (12cm,2.5cm) rectangle (16cm,-0.5cm);
+        % dots
+        \path (tconv1.east)+(4.65cm, 0cm) -- node [scale=4]{\dots} (tconv2);
+        \path (bconv1.east)+(4.65cm, 0cm) -- node [scale=4]{\dots} (bconv2);
 
-  % bottomconv2 layer
-  \node (bconv2) at (12cm, -6cm) {};
-  \draw [fill=blue!20] (12.6cm,-3.9cm) rectangle (16.6cm,-6.9cm);
-  \draw [fill=blue!20] (12.4cm,-4.1cm) rectangle (16.4cm,-7.1cm);
-  \draw [fill=blue!20] (12.2cm,-4.3cm) rectangle (16.2cm,-7.3cm);
-  \draw [fill=blue!20] (12cm,-4.5cm) rectangle (16cm,-7.5cm);
+        % convnet label
+        \node (convnet) [below, scale=3.5] at (11cm, -8cm) {ConvNet};
 
-  \path (tconv1.east)+(4.65cm, 0cm) -- node [scale=4]{\dots} (tconv2);
-  \path (bconv1.east)+(4.65cm, 0cm) --node [scale=4]{\dots} (bconv2);
+        % toprank
+        \node (tconvout) at (16.6cm, 1cm) {};
+        \node (trank) at (21.1cm, 1cm) [rectangle, draw, fill=red!15, scale=3, align=center, line width=2pt] {Ranking \\  Layer};
+        \path [draw, line width=3, -Latex] (tconvout) -- node[above, scale=3.2] {$\psi_i$} (trank.west);
 
-  \node (convnet) [below, scale=3.5] at (11cm, -8cm) {ConvNet};
+        % bottomrank
+        \node (bconvout) at (16.6cm, -6cm) {};
+        \node (brank) at (21.1cm, -6cm) [rectangle, draw, fill=red!15, scale=3, align=center, line width=2pt] {Ranking \\  Layer};
+        \path [draw, line width=3, -Latex] (bconvout) -- node[above, scale=3.2] {$\psi_j$} (brank.west);
 
-  % toprank
-  \node (tconvout) at (16.6cm, 1cm) {};
-  \node (trank) at (21.1cm, 1cm) [rectangle, draw, fill=red!20, scale=3, align=center] {Ranking \\  Layer};
-  \path [draw, line width=3, ->] (tconvout) -- node[above, scale=3] {$\psi_i$} (trank.west);
+        % shared rank layer
+        \node (dashcenter) at (10.75cm, 0cm) {};
+        \path [draw, line width=2, Latex-Latex] (trank.south) -- node [scale=2.5, rectangle, fill=white, line width=0, inner sep=1pt] {\rotatebox{90}{shared}} (brank.north);
+        \path [draw, line width=2, Latex-Latex] (trank.south -| dashcenter) -- node [scale=2.5, rectangle, fill=white, line width=0, inner sep=1pt] {\rotatebox{90}{shared}} (brank.north -| dashcenter);
 
-  % bottomrank
-  \node (bconvout) at (16.6cm, -6cm) {};
-  \node (brank) at (21.1cm, -6cm) [rectangle, draw, fill=red!20, scale=3, align=center] {Ranking \\  Layer};
-  \path [draw, line width=3, ->] (bconvout) -- node[above, scale=3] {$\psi_j$} (brank.west);
+        % posterior
+        \node (posterior) at (27cm, -2.5cm) [rectangle, draw, fill=orange!15, scale=3, minimum width=15] {\rotatebox{90}{Posterior}};
 
-  % shared rank layer
-  \node (dashcenter) at (10.75cm, 0cm) {};
-  \path [draw, line width=2, <->] (trank.south) -- node [scale=2, draw, rectangle, fill=white, line width=0] {\rotatebox{90}{shared}} (brank.north);
-  \path [draw, line width=2, <->] (trank.south -| dashcenter) -- node [scale=2, draw, rectangle, fill=white, line width=0] {\rotatebox{90}{shared}} (brank.north -| dashcenter);
+        % connect rank layer to posterior
+        \path [draw, line width=3, -Latex] (trank.east) -- node [scale=3.2, above] {$r_i$} (posterior);
+        \path [draw, line width=3, -Latex] (brank.east) -- node [scale=3.2, above] {$r_j$} (posterior);
 
-  % posterior
-  \node (posterior) at (27cm, -2.5cm) [rectangle, draw, fill=orange!10, scale=3, minimum width=15] {\rotatebox{90}{Posterior}};
+        % BXE
+        \node (bxent) at (36cm, -2.5cm) [draw,fill=green!10, regular polygon, regular polygon sides=3, shape border rotate=-90, scale=8, line width=2] {};
+        \node at (36.2cm, -2.5cm) {\Huge BXEnt};
 
-  % connect rank layer to posterior
-  \path [draw, line width=2, ->] (trank.east) -- node [scale=3, above] {$r_i$} (posterior);
-  \path [draw, line width=2, ->] (brank.east) -- node [scale=3, above] {$r_j$} (posterior);
+        % target value
+        \node [align=center, minimum height=3mm] (target) at (30cm , -4.05cm) [scale=3.5] {target};
 
-  % BXE
-  \node (bxent) at (36cm, -2.5cm) [draw,fill=green!10, regular polygon, regular polygon sides=3, shape border rotate=-90, scale=8, line width=2] {};
-  \node at (36.2cm, -2.5cm) {\Huge BXEnt};
+        % connect to bxe
+        \draw [line width=3, -Latex] (posterior.east) -- ++(3cm, 0cm) |- node [above right, scale=3] {$p_{ij}$}  (bxent.north west);
+        \draw [line width=3, -Latex] (target.east) -- node [below, scale=3] {$t_{ij}$}  (bxent.south west |- target.east);
 
-  % target value
-  \node [draw, rectangle] (target) at (30cm , -4.2cm) [scale=3] {target};
+        % loss node
+        \node (loss) [scale=3.5] at (44cm, -2.5cm) {loss};
 
-  % connect to bxe
-  \draw [line width=3, ->] (posterior.east) -- ++(3cm, 0cm) |- node [above right, scale=3] {$p_{ij}$}  (bxent.north west);
-  \draw [line width=3, ->] (target.east) -- node [below, scale=3] {$t_{ij}$}  (bxent.south west |- target.east);
-
-  % loss node
-  \node (loss) [scale=3] at (44cm, -2.5cm) { loss};
-
-  % connect bxent to loss
-  \draw [line width=3, ->] (bxent.east) -- node [above, scale=3] {$C_{ij}$}  (loss.west);
-\end{tikzpicture}}
+        % connect bxent to loss
+        \draw [line width=3, -Latex] (bxent.east) -- node [above, scale=3.2] {$C_{ij}$}  (loss.west);
+    \end{tikzpicture}
+}
 \caption{The overall schematic view of the proposed method during training. The network consists of two parts, the \textit{feature learning and extraction} part (labeled ConvNet in the figure), and the \textit{ranking} part (the Ranking Layer). Pairs of images are presented to the network with their corresponding target probabilities. This is used to calculate the loss, which is then back-propagated through the network to update the weights.}
 \label{fig.3}
 \end{figure}
@@ -363,55 +346,39 @@ During testing (Figure \ref{fig.4}), we need to calculate the estimated absolute
 \centering
 \resizebox{\linewidth}{!}
 {
-% We need layers to draw the block diagram
-\pgfdeclarelayer{background}
-\pgfdeclarelayer{foreground}
-\pgfsetlayers{background,main,foreground}
+    \begin{tikzpicture}
+        \node (im1) at (0cm,1cm) {\includegraphics[scale=1]{pair3A-trimmed.jpg}};
 
-% Define a few styles and constants
-\tikzstyle{sensor}=[draw, fill=blue!20, text width=5em, 
-    text centered, minimum height=2.5em]
-\tikzstyle{ann} = [above, text width=5em]
-\tikzstyle{naveqs} = [sensor, text width=6em, fill=red!20, 
-    minimum height=12em, rounded corners]
-\def\blockdist{2.3}
-\def\edgedist{2.5}
+        % topconv1 layer
+        \node (tconv1) at (5.1cm, 1cm) {};
+        \draw [fill=blue!20] (5cm,2.9cm) rectangle (9cm,-0.1cm);
+        \draw [fill=blue!20] (5.2cm,2.7cm) rectangle (9.2cm,-0.3cm);
+        \draw [fill=blue!20] (5.4cm,2.5cm) rectangle (9.4cm,-0.5cm);
 
-\begin{tikzpicture}
-  \node (im1) at (0cm,1cm) [draw] {\includegraphics[scale=1]{pair3A.jpg}};
+        % arrows from images to conv1s
+        \path [draw, -Latex, line width=3] (im1.east) -- node [above, scale=3] {$I_k$} (tconv1);
 
-  % topconv1 layer
-  \node (tconv1) at (5.1cm, 1cm) {};
-  \draw [fill=blue!20] (5.4cm,2.9cm) rectangle (9.4cm,-0.1cm);
-  \draw [fill=blue!20] (5.2cm,2.7cm) rectangle (9.2cm,-0.3cm);
-  \draw [fill=blue!20] (5cm,2.5cm) rectangle (9cm,-0.5cm);
+        % topconv2 layer
+        \node (tconv2) at (12cm, 1cm) {};
+        \draw [fill=blue!20] (12cm,3.1cm) rectangle (16cm,0.1cm);
+        \draw [fill=blue!20] (12.2cm,2.9cm) rectangle (16.2cm,-0.1cm);
+        \draw [fill=blue!20] (12.4cm,2.7cm) rectangle (16.4cm,-0.3cm);
+        \draw [fill=blue!20] (12.6cm,2.5cm) rectangle (16.6cm,-0.5cm);
 
-  % arrows from images to conv1s
-  \path [draw, ->, line width=3] (im1.east) -- node [above, scale=3] {$I_k$} (tconv1);
+        \path (tconv1.east)+(4.65cm, 0cm) -- node [scale=4]{\dots} (tconv2);
 
-  % topconv2 layer
-  \node (tconv2) at (12cm, 1cm) {};
-  \draw [fill=blue!20] (12.6cm,3.1cm) rectangle (16.6cm,0.1cm);
-  \draw [fill=blue!20] (12.4cm,2.9cm) rectangle (16.4cm,-0.1cm);
-  \draw [fill=blue!20] (12.2cm,2.7cm) rectangle (16.2cm,-0.3cm);
-  \draw [fill=blue!20] (12cm,2.5cm) rectangle (16cm,-0.5cm);
+        % toprank
+        \node (tconvout) at (16.6cm, 1cm) {};
+        \node (trank) at (21.5cm, 1cm) [rectangle, draw, fill=red!20, scale=3, align=center] {Ranking \\  Layer};
+        \path [draw, line width=3, -Latex] (tconvout) -- node[above, scale=3] {$\psi_k$} (trank.west);
+        
+        % posterior
+        \node [scale=3] (posterior) at (26.5cm, 1cm) {$r_k$};
 
-  \path (tconv1.east)+(4.65cm, 0cm) -- node [scale=4]{\dots} (tconv2);
-
-  % toprank
-  \node (tconvout) at (16.6cm, 1cm) {};
-  
-  \node (trank) at (21.5cm, 1cm) [rectangle, draw, fill=red!20, scale=3, align=center] {Ranking \\  Layer};
-  \path [draw, line width=3, ->] (tconvout) -- node[above, scale=3] {$\psi_k$} (trank.west);
-  
-  % posterior
-  \node (posterior) at (26.5cm, 1cm){};
-
-  % connect rank layer to posterior
-  \path [draw, line width=3, ->] (trank.east) -- node [scale=3, above] {$r_k$} (posterior);
-
-  
-\end{tikzpicture}}
+        % connect rank layer to posterior
+        \path [draw, line width=3, -Latex] (trank.east) -- (posterior);
+    \end{tikzpicture}
+}
 \caption{During testing, we only need to evaluate $r_k$ for each testing image. Using this value, we can infer the relative or absolute ordering of testing images, for the attribute of interest.}
 \label{fig.4}
 \end{figure}
@@ -441,7 +408,7 @@ In our experiments, we have used the provided training/testing split of PubFig a
 \subsection{Experimental setup}
 We train our proposed model (described in Section \ref{sec.3}) for each attribute, separately. In our proposed model, it is possible  to train multiple attributes at the same time, however, this is not done due to the structure of the datasets, in which for each training pair of images only a certain attribute is annotated.
 
-We have used the Lasagne \cite{lasagne} deep learning framework to implement our model.
+We have used the Lasagne \cite{lasagne} deep learning framework to implement our model. 
 In all our experiments, for the feature learning and extraction part of the network,
 %we use layer fc7 of VGG-16 model of \cite{verydeep} (the last layer before the probability layer).
 we use the VGG-16 model of \cite{verydeep} and trim out the probability layer (all layers up to fc7 are used, only the probability layer is not included).
@@ -449,9 +416,10 @@ we use the VGG-16 model of \cite{verydeep} and trim out the probability layer (a
 We initialize the weights of the model using a pretrained model on ILSVRC 2014 dataset \cite{ilsvrc2014} for the task of image classification. These weights are fine-tuned as the network learns to predict the relative attributes (see section \ref{sec.qres}). The weights $w$ of the ranking layer are initialized using the Xavier method \cite{glorot}, and the bias is initialized to 0.
 
 For training, we use stochastic gradient descent with RMSProp \cite{Tieleman2012} updates and minibatches of size 32 (16 pair of images).
-We set the learning rate for all experiments to $10^{-4}$ (for all weights and biases both the feature learning and extraction layers and the ranking layer), initially, then RMSProp changes the learning rates dynamically during training. We have also used weight decay ($\ell_2$ norm regularization), with a fixed $0.005$ multiplier. Furthermore, when calculating the binary cross entropy loss, we clip the estimated posterior $p_{ij}$ to be in the range $[10^{-7}, 1 - 10^{-7}]$. This is used to prevent the loss from diverging.
+We set the learning rate of the feature learning and extraction layers of the network to $10^{-5}$ and the ranking layer to $10^{-4}$ for all experiments initially, then RMSProp changes the learning rates dynamically during training. We have also used weight decay ($\ell_2$ norm regularization), with a fixed $10^{-5}$ multiplier. Furthermore, when calculating the binary cross entropy loss, we clip the estimated posterior $p_{ij}$ to be in the range $[10^{-7}, 1 - 10^{-7}]$. This is used to prevent the loss from diverging.
 
-In each epoch, we randomly shuffle the training pairs. The number of epochs of training were chosen to reflect the training size. For Zappos50K and LFW-10 datasets, we train for 5 and 50 epochs, respectively. For PubFig and OSR datasets, we train for 120 epochs due to the small number of training samples. Also, we have added random horizontal flipping of the training images as a way to augment the training set for the PubFig and OSR datasets.
+In each epoch, we randomly shuffle the training pairs. The number of epochs of training were chosen to reflect the training size. For Zappos50K and LFW-10 datasets, we train for 25 and 40 epochs, respectively. For PubFig and OSR datasets, we train for 2 epochs due to the large number of training sample pairs. When performing evaluation on OSR the total number of pairs is too large (around 3 million pairs) we only evaluate on a 5\% random subset of them. 
+%The full implementation details can be accessed online\footnote{\href{https://github.com/yassersouri/ghiaseddin}{https://github.com/yassersouri/ghiaseddin}}.
 
 \subsection{Baseline}
 
@@ -463,7 +431,8 @@ Using this baseline we can evaluate the extent of effectiveness of off-the-shelf
 
 Following \cite{parikh2011,Yu2014,Sandeep_2014_CVPR}, we report the accuracy in terms of the percentage of correctly ordered pairs. For our proposed method, we report the mean accuracy and standard deviation over 3 separate runs. 
 
-Table \ref{tab:osr} shows our results on the OSR dataset. Our method outperforms the baseline and the state-of-the-art on this dataset, on all attributes except for `Natural' attribute, where the baseline outperforms our method with a small margin. One possible cause of this could be that the pretrained network of the baseline is still appropriate for this dataset, since the dataset contains natural images. This is a relatively easy dataset, and we would assume that it cannot show the ability of our method to learn better features.
+Table \ref{tab:osr} and \ref{tab:pubfig} shows our results on the OSR and PubFig dataset respectively. Our method outperforms the baseline and the state-of-the-art on this dataset by a considerable margin, on most attributes. These are relatively easy datasets but have their own challenges. Specifically the OSR dataset contains attributes like "Perspective" which are very generic, high level and global in the image, which might not correspond easily to local low level image features.
+We think that our proposed method is specially well suited for such cases. 
 
 %%%%%%%%%%%%%%%%%%%%%% OSR RESULTS %%%%%%%%%%%%%%%%%%%%%
 % TODO: Add ICCV 2015 and BMVC 2015 results
@@ -476,18 +445,15 @@ Table \ref{tab:osr} shows our results on the OSR dataset. Our method outperforms
  Relative Attributes~\cite{parikh2011} &  95.03 & 90.77 & 86.73 & 86.23 & 86.50 & 87.53 & 88.80 \\
  Relative Forest~\cite{Li2012RelativeFF} & 95.24 & 92.39 & 87.58 & 88.34 & 89.34 & 89.54 & 90.41 \\
  Fine-grained Comparison~\cite{Yu2014} & 95.70 & 94.10 & 90.43 & 91.10 & 92.43 & 90.47 & 92.37 \\
- VGG16-fc7 (baseline) & 97.98 & 87.82 & 89.01 & 88.25 & 89.91 & 90.70 & 90.61 \\
- %RankNet (ours) & 97.76 ($\pm$ 0.25) & 94.48 ($\pm$ 0.90) & 92.37 ($\pm$ 0.34) & 92.70 ($\pm$ 1.01) & 95.14 ($\pm$ 0.26) & 91.44 ($\pm$ 2.69) & \textbf{93.98} ($\pm$ 0.35) \\
+ VGG16-fc7 (baseline) & 98.00 & 94.46 & 92.92 & 94.08 & 94.91 & 95.02 & 94.90 \\
  \hline
- \multirow{2}{*}{RankNet (ours)} & 97.76  & 94.48  & 92.37  & 92.70  & 95.14  & 91.44  & \textbf{93.98}  \\
-        & \scriptsize{($\pm$ 0.25)} & \scriptsize{($\pm$ 0.90)} & \scriptsize{($\pm$ 0.34)} & \scriptsize{($\pm$ 1.01)} & \scriptsize{($\pm$ 0.26)} & \scriptsize{($\pm$ 2.69)} & \scriptsize{($\pm$ 0.35)} \\
+ \multirow{2}{*}{RankNet (ours)} & 99.40  & 97.44  & 96.88  & 96.79  & 98.43  & 97.65  & \textbf{97.77}  \\
+        & \scriptsize{($\pm$ 0.10)} & \scriptsize{($\pm$ 0.16)} & \scriptsize{($\pm$ 0.13)} & \scriptsize{($\pm$ 0.32)} & \scriptsize{($\pm$ 0.23)} & \scriptsize{($\pm$ 0.16)} & \scriptsize{($\pm$ 0.10)} \\
  \hline
 \end{tabular}}
 \label{tab:osr}
 \end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Table \ref{tab:pubfig} shows our results on the PubFig dataset. On this dataset, our results are very competitive with the state-of-the-art. We think this is due to label inconsistency in this dataset, low number of training samples, and the fact that the images in the dataset are very tightly cropped to the face.
 
 %%%%%%%%%%%%%%%%%%%%%% PUBFIG RESULTS %%%%%%%%%%%%%%%%%%%
 %TODO: Reposition tables and figures
@@ -497,21 +463,20 @@ Table \ref{tab:pubfig} shows our results on the PubFig dataset. On this dataset,
 \resizebox{\textwidth}{!}{
 \begin{tabular}{l|c|c|c|c|c|c|c|c|c|c|c|c}
  \textbf{Method} & \textbf{Male} & \textbf{White} & \textbf{Young} & \textbf{Smiling} & \textbf{Chubby} & \textbf{Forehead} & \textbf{Eyebrow} & \textbf{Eye} & \textbf{Nose} & \textbf{Lip} & \textbf{Face} & \textbf{Mean}  \\ \hline
- Relative Attributes~\cite{parikh2011} & 81.80 & 76.97 & 83.20 & 79.90 & 76.27 & 87.60 & 79.87 & 81.67 & 77.40 & 79.17 & 82.33 & 80.53 \\ 
+ Relative Attributes~\cite{parikh2011} & 81.80 & 76.97 & 83.20 & 79.90 & 76.27 & 87.60 & 79.87 & 81.67 & 77.40 & 79.17 & 82.33 & 80.56 \\ 
  Relative Forest~\cite{Li2012RelativeFF} & 85.33 & 82.59 & 84.41 & 83.36 & 78.97 & 88.83 & 81.84 & 83.15 & 80.43 & 81.87 & 86.31 & 83.37 \\
- Fine-grained Comparison~\cite{Yu2014} & 91.77 & 87.43 & 91.87 & 87.00 & 87.37 & 94.00 & 89.83 & 91.40 & 89.07 & 90.43 & 86.70 & \textbf{89.72} \\
- VGG16-fc7 (baseline) & 80.84 & 73.39 & 79.41 & 76.23 & 74.69 & 80.52 & 75.38 & 77.78 & 76.15 & 78.14 & 80.01 & 77.50 \\
- %RankNet (ours) & \pbox{20cm}{\centering 90.10\\($\pm$ 1.05)} & 89.49 ($\pm$ 0.59) & 89.83 ($\pm$ 0.37) & 88.62 ($\pm$ 1.59) & 88.72 ($\pm$ 0.75) & 9.33 ($\pm$ 0.80) & 88.13 ($\pm$ 1.83) & 86.94 ($\pm$ 3.36) & 86.30 ($\pm$ 1.60) & 89.79 ($\pm$ 0.45) & 92.71 ($\pm$ 1.87) & \textbf{89.36 ($\pm$ 0.57)} \\
+ Fine-grained Comparison~\cite{Yu2014} & 91.77 & 87.43 & 91.87 & 87.00 & 87.37 & 94.00 & 89.83 & 91.40 & 89.07 & 90.43 & 86.70 & 89.72 \\
+ VGG16-fc7 (baseline) & 85.56 & 80.59 & 85.20 & 84.81 & 82.56 & 88.50 & 83.50 & 83.11 & 81.52 & 85.67 & 86.23 & 84.30 \\
  \hline
- \multirow{2}{*}{RankNet (ours)} & 90.10 & 89.49 & 89.83 & 88.62 & 88.72 & 92.33 & 88.13 & 86.94 & 86.30 & 89.79 & 92.71 & \textbf{89.36} \\
-                                 & \scriptsize{($\pm$ 1.05)} & \scriptsize{($\pm$ 0.59)} & \scriptsize{($\pm$ 0.37)} & \scriptsize{($\pm$ 1.59)} & \scriptsize{($\pm$ 0.75)} & \scriptsize{($\pm$ 0.80)} &  \scriptsize{($\pm$ 1.83)} & \scriptsize{($\pm$ 3.36)} & \scriptsize{($\pm$ 1.60)} & \scriptsize{($\pm$ 0.45)} & \scriptsize{($\pm$ 1.87)} & \scriptsize{($\pm$ 0.57)} \\
+ \multirow{2}{*}{RankNet (ours)} & 95.50 & 94.60 & 94.33 & 95.36 & 92.32 & 97.28 & 94.53 & 93.19 & 94.24 & 93.62 & 94.76 & \textbf{94.52} \\
+                                 & \scriptsize{($\pm$ 0.36)} & \scriptsize{($\pm$ 0.55)} & \scriptsize{($\pm$ 0.36)} & \scriptsize{($\pm$ 0.56)} & \scriptsize{($\pm$ 0.36)} & \scriptsize{($\pm$ 0.49)} &  \scriptsize{($\pm$ 0.64)} & \scriptsize{($\pm$ 0.51)} & \scriptsize{($\pm$ 0.24)} & \scriptsize{($\pm$ 0.20)} & \scriptsize{($\pm$ 0.24)} & \scriptsize{($\pm$ 0.08)} \\
  \hline
 \end{tabular}}
 \label{tab:pubfig}
 \end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Table \ref{tab:lfw} shows our results on the LFW-10 dataset. On this dataset, our method outperforms the state-of-the-art by a large margin. Meanwhile, the baseline cannot achieve a comparative result. This shows that for achieving good results, the feature learning and extraction part have had a large impact.
+Table \ref{tab:lfw} shows our results on the LFW-10 dataset. On this dataset, our method performs competitive with respect to the state-of-the-art, but cannot outperform it. We think this might be due to label noise in this dataset and due to the fact that most of the attributes in this dataset are highly local and methods that outperform us on this dataset look locally on regions of the image instead of the whole image.
 
 %%%%%%%%%%%%%%%%%%%%%%% LFW-10 RESULTS %%%%%%%%%%%%%%%%%%
 \begin{table*}[t!]
@@ -522,19 +487,20 @@ Table \ref{tab:lfw} shows our results on the LFW-10 dataset. On this dataset, ou
  \textbf{Method} & \textbf{Bald} & \textbf{DkHair} & \textbf{Eyes} & \textbf{GdLook} & \textbf{Mascu.} & \textbf{Mouth} & \textbf{Smile} & \textbf{Teeth} & \textbf{FrHead} & \textbf{Young} & \textbf{Mean} \\ \hline
  Fine-grained Comparison~\cite{Li2012RelativeFF} & 67.9 & 73.6 & 49.6 & 64.7 & 70.1 & 53.4 & 59.7 & 53.5 & 65.6 & 66.2 & 62.4  \\
  Relative Attributes~\cite{parikh2011} & 70.4 & 75.7 & 52.6 & 68.4 & 71.3 & 55.0 & 54.6 & 56.0 & 64.5 & 65.8 & 63.4 \\
- Relative Parts~\cite{Sandeep_2014_CVPR} & 71.8 & 80.5 & 90.5 & 77.6 & 67.0 & 77.6 & 81.3 & 76.2 & 80.2 & 82.4 & 78.5 \\
  Global + HOG~\cite{Verma2015ExploringLR} & 78.8 & 72.4 & 70.7 & 67.6 & 84.5 & 67.8 & 67.4 & 71.7 & 79.3 & 68.4 & 72.9 \\
- VGG16-fc7 (baseline) & 70.44 & 69.14 & 59.40 & 59.75 & 84.48 & 56.04 & 57.63 & 57.85 & 59.38 & 70.36 & 64.45 \\
+ Relative Parts~\cite{Sandeep_2014_CVPR} & 71.8 & 80.5 & 90.5 & 77.6 & 67.0 & 77.6 & 81.3 & 76.2 & 80.2 & 82.4 & 78.5 \\
+ Spatial Extent~\cite{spatial_extent} & 83.21 & 88.13 & 82.71 & 72.76 & 93.68 & 88.26 & 88.16 & 88.46 & 90.23 & 75.05 & \textbf{84.66} \\
+ VGG16-fc7 (baseline) & 72.26 & 79.23 & 55.64 & 62.85 & 90.80 & 62.42 & 66.38 & 59.38 & 64.45 & 66.31 & 67.97 \\
  \hline
- \multirow{2}{*}{RankNet (ours)} & 81.27 & 88.92 & 91.98 & 72.03 & 95.40 & 89.04 & 84.75 & 89.33 & 84.11 & 73.35 & \textbf{85.02} \\ 
-                                 & \scriptsize{($\pm$ 1.47)} & \scriptsize{($\pm$ 1.63)} & \scriptsize{($\pm$ 2.42)} & \scriptsize{($\pm$ 1.25)} & \scriptsize{($\pm$ 1.52)} & \scriptsize{($\pm$ 2.18)} & \scriptsize{($\pm$ 0.28)} & \scriptsize{($\pm$ 0.47)} & \scriptsize{($\pm$ 2.77)} & \scriptsize{($\pm$ 1.13)} & \scriptsize{($\pm$ 0.59)} \\
+ \multirow{2}{*}{RankNet (ours)} & 81.14 & 88.92 & 74.44 & 70.28 & 98.08 & 85.46 & 82.49 & 82.77 & 81.90 & 76.33 & \textbf{82.18} \\ 
+                                 & \scriptsize{($\pm$ 3.39)} & \scriptsize{($\pm$ 0.75)} & \scriptsize{($\pm$ 5.97)} & \scriptsize{($\pm$ 0.54)} & \scriptsize{($\pm$ 0.33)} & \scriptsize{($\pm$ 0.70)} & \scriptsize{($\pm$ 1.41)} & \scriptsize{($\pm$ 2.15)} & \scriptsize{($\pm$ 2.00)} & \scriptsize{($\pm$ 0.43)} & \scriptsize{($\pm$ 1.08)} \\
  \hline
 \end{tabular}}
 \label{tab:lfw}
 \end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zappos50K-2 datasets, respectively. Our method, again, achieves the state-of-the-art accuracy on both fine-grained and coarse-grained datasets. However, our baseline method does not achieve a good result on this dataset. We would assume this is due to the fact that the images in the Zappos50K dataset are not natural images (presence of white background). So the extracted features in the baseline method are not appropriate for ranking. But our proposed method learns appropriate features for the task, given the large amount of training data available in this dataset.
+Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zappos50K-2 datasets, respectively. Our method, again, achieves the state-of-the-art accuracy on both coarse-grained and fine-grained datasets. Our proposed method learns appropriate features for the task, given the large amount of training data available in this dataset.
 
 %%%%%%%%%%%%%%%%%%%%%% Zap50K-1 RESULTS %%%%%%%%%%%%%%%%
 \begin{table}[h]
@@ -546,10 +512,11 @@ Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zap
  \textbf{Method} & \textbf{Open} & \textbf{Pointy} & \textbf{Sporty} & \textbf{Comfort} & \textbf{Mean} \\ \hline
  Relative Attributes~\cite{parikh2011} & 87.77 & 89.37 & 91.20 & 89.93 & 89.57 \\
  Fine-grained Comparison~\cite{Yu2014} & 90.67 & 90.83 & 92.67 & 92.37 & 91.64 \\
- VGG16-fc7 (baseline) & 62.33 & 59.57 & 61.33 & 61.00 & 61.08 \\
+ Spatial Extent~\cite{spatial_extent} & 95.03 & 94.80 & 96.47 & 95.60 & 95.47 \\
+ VGG16-fc7 (baseline) & 89.67 & 90.67 & 91.67 & 91.00 & 90.75 \\
  \hline
- \multirow{2}{*}{RankNet (ours)} & 93.00 & 92.11 & 95.56 & 93.22 & \textbf{93.47}\\
-                                 & \scriptsize{($\pm$ 1.15)} & \scriptsize{($\pm$ 1.58)} & \scriptsize{($\pm$ 1.26)} & \scriptsize{($\pm$ 2.41)} & \scriptsize{($\pm$ 0.59)}\\
+ \multirow{2}{*}{RankNet (ours)} & 95.37 & 94.43 & 97.30 & 95.57 & \textbf{95.67}\\
+                                 & \scriptsize{($\pm$ 0.82)} & \scriptsize{($\pm$ 0.75)} & \scriptsize{($\pm$ 0.81)} & \scriptsize{($\pm$ 0.97)} & \scriptsize{($\pm$ 0.49)}\\
  \hline
 \end{tabular}}
 \label{tab:zap1}
@@ -568,10 +535,10 @@ Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zap
  Relative Attributes~\cite{parikh2011} & 60.18 & 59.56 & 62.70 & 64.04 & 61.62  \\
  Fine-grained Comparison~\cite{Yu2014} & 74.91 & 63.74 & 64.54 & 62.51 & 66.43  \\
  LocalPair + ML + HOG~\cite{Verma2015ExploringLR} & 76.2 & 65.3 & 64.8 & 63.6 & 67.5 \\
- VGG16-fc7 (baseline) & 52.55 & 52.65 & 51.52 & 53.01 & 52.43 \\
+ VGG16-fc7 (baseline) & 64.82 & 64.51 & 67.31 & 67.01 & 65.91 \\
  \hline
- \multirow{2}{*}{RankNet (ours)} & 71.21 & 66.64 & 67.81 & 65.88 & \textbf{67.88} \\
-                                 & \scriptsize{($\pm$ 1.50)} & \scriptsize{($\pm$ 1.81)} & \scriptsize{($\pm$ 0.84)} & \scriptsize{($\pm$ 1.92)} & \scriptsize{($\pm$ 0.83)}\\
+ \multirow{2}{*}{RankNet (ours)} & 73.45 & 68.20 & 73.07 & 70.31 & \textbf{71.26} \\
+                                 & \scriptsize{($\pm$ 1.23)} & \scriptsize{($\pm$ 0.18)} & \scriptsize{($\pm$ 0.75)} & \scriptsize{($\pm$ 1.50)} & \scriptsize{($\pm$ 0.50)}\\
  \hline
 \end{tabular}}
 \label{tab:zap2}
@@ -585,8 +552,8 @@ Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zap
 \begin{figure*}
 \resizebox{\textwidth}{!}{
 \centering
-\includegraphics{lfw10-baldhead-featspace.pdf}
-\includegraphics{zappos-pointy-featspace.pdf}
+\includegraphics{lfw10-baldhead-featspace-new.pdf}
+\includegraphics{zappos-pointy-featspace-new.pdf}
 }
 \caption{t-SNE embedding of images in fine-tuned feature space (top) and original feature space (bottom). The set of visualizations on the left are for the \textit{Bald Head} attribute of the LFW-10 dataset, while the visualizations on the right are for the \textit{Pointy} attribute of the Zappos50K-1 dataset. Images in the middle row show a number of samples from the feature space. In the fine-tuned feature space, it is clear that images are ordered according to their value of the attribute. Each point is colored according to its value of the respective attribute, to discriminate images according to their value of the attribute.}
 \label{featspace}
@@ -596,58 +563,59 @@ Tables \ref{tab:zap1} and \ref{tab:zap2} show the results on Zappos50K-1 and Zap
 
 %%%%%%%%%%%%%%%%%%%%% Figure test order %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
-\resizebox{\textwidth}{!}{
-\begin{tikzpicture}
+\resizebox{\textwidth}{!}
+{
+    \begin{tikzpicture}
+        \node [scale=3] (strong) {\textit{strong}}; 
+        \node [scale=3, right=31cm of strong] (weak) {\textit{weak}};
+        \path [draw, line width=3, Stealth-Stealth] ([xshift=-2.7cm]strong.south) -- ([xshift=2cm]weak.south|-strong.south);
 
-        \node [scale=2] (strong) {\textit{strong}}; 
-    \node [scale=2, right=31cm of strong] (weak) {\textit{weak}};
-    \path [draw, line width=3, <->, blue] (strong.south west) -- (weak.south east);
+        % attr1
+        \node [below=0.5cm of strong] (attr1im1) {\includegraphics[width=4cm, height=4cm]{attr1_im1.jpg}};
+        \node (attr1name) [scale=3, left=0.5cm of attr1im1, align=center] {Smile \\ (LFW-10)};
+        \node [right=0.5cm of attr1im1] (attr1im2) {\includegraphics[width=4cm, height=4cm]{attr1_im2.jpg}};
+        \node [right=0.5cm of attr1im2] (attr1im3) {\includegraphics[width=4cm, height=4cm]{attr1_im3.jpg}};
+        \node [right=0.5cm of attr1im3] (attr1im4) {\includegraphics[width=4cm, height=4cm]{attr1_im4.jpg}};
+        \node [right=0.5cm of attr1im4] (attr1im5) {\includegraphics[width=4cm, height=4cm]{attr1_im5.jpg}};
+        \node [right=0.5cm of attr1im5] (attr1im6) {\includegraphics[width=4cm, height=4cm]{attr1_im6.jpg}};
+        \node [right=0.5cm of attr1im6] (attr1im7) {\includegraphics[width=4cm, height=4cm]{attr1_im7.jpg}};
+        \node [right=0.5cm of attr1im7] (attr1im8) {\includegraphics[width=4cm, height=4cm]{attr1_im8.jpg}};
 
-    % attr1
-    \node [below=0.5cm of strong] (attr1im1) {\includegraphics[width=4cm, height=4cm]{attr1_im1.jpg}};
-    \node (attr1name) [scale=2, left=0.5cm of attr1im1] {Smile (LFW-10)};
-    \node [right=0.5cm of attr1im1] (attr1im2) {\includegraphics[width=4cm, height=4cm]{attr1_im2.jpg}};
-    \node [right=0.5cm of attr1im2] (attr1im3) {\includegraphics[width=4cm, height=4cm]{attr1_im3.jpg}};
-    \node [right=0.5cm of attr1im3] (attr1im4) {\includegraphics[width=4cm, height=4cm]{attr1_im4.jpg}};
-    \node [right=0.5cm of attr1im4] (attr1im5) {\includegraphics[width=4cm, height=4cm]{attr1_im5.jpg}};
-    \node [right=0.5cm of attr1im5] (attr1im6) {\includegraphics[width=4cm, height=4cm]{attr1_im6.jpg}};
-    \node [right=0.5cm of attr1im6] (attr1im7) {\includegraphics[width=4cm, height=4cm]{attr1_im7.jpg}};
-    \node [right=0.5cm of attr1im7] (attr1im8) {\includegraphics[width=4cm, height=4cm]{attr1_im8.jpg}};
+        % attr4
+        \node [below=0.5cm of attr1im1] (attr4im1) {\includegraphics[width=4cm, height=3cm]{attr4_im1.jpg}};
+        \node (attr4name) [scale=3, below=1.8cm of attr1name, align=center] {Sporty \\ (Zap50K-1)};
+        \node [right=0.5cm of attr4im1] (attr4im2) {\includegraphics[width=4cm, height=3cm]{attr4_im2.jpg}};
+        \node [right=0.5cm of attr4im2] (attr4im3) {\includegraphics[width=4cm, height=3cm]{attr4_im3.jpg}};
+        \node [right=0.5cm of attr4im3] (attr4im4) {\includegraphics[width=4cm, height=3cm]{attr4_im4.jpg}};
+        \node [right=0.5cm of attr4im4] (attr4im5) {\includegraphics[width=4cm, height=3cm]{attr4_im5.jpg}};
+        \node [right=0.5cm of attr4im5] (attr4im6) {\includegraphics[width=4cm, height=3cm]{attr4_im6.jpg}};
+        \node [right=0.5cm of attr4im6] (attr4im7) {\includegraphics[width=4cm, height=3cm]{attr4_im7.jpg}};
+        \node [right=0.5cm of attr4im7] (attr4im8) {\includegraphics[width=4cm, height=3cm]{attr4_im8.jpg}};
 
-    % attr4
-    \node [below=0.5cm of attr1im1] (attr4im1) {\includegraphics[width=4cm, height=3cm]{attr4_im1.jpg}};
-    \node (attr4name) [scale=2, left=0.5cm of attr4im1] {Sporty (Zappos50K-1)};
-    \node [right=0.5cm of attr4im1] (attr4im2) {\includegraphics[width=4cm, height=3cm]{attr4_im2.jpg}};
-    \node [right=0.5cm of attr4im2] (attr4im3) {\includegraphics[width=4cm, height=3cm]{attr4_im3.jpg}};
-    \node [right=0.5cm of attr4im3] (attr4im4) {\includegraphics[width=4cm, height=3cm]{attr4_im4.jpg}};
-    \node [right=0.5cm of attr4im4] (attr4im5) {\includegraphics[width=4cm, height=3cm]{attr4_im5.jpg}};
-    \node [right=0.5cm of attr4im5] (attr4im6) {\includegraphics[width=4cm, height=3cm]{attr4_im6.jpg}};
-    \node [right=0.5cm of attr4im6] (attr4im7) {\includegraphics[width=4cm, height=3cm]{attr4_im7.jpg}};
-    \node [right=0.5cm of attr4im7] (attr4im8) {\includegraphics[width=4cm, height=3cm]{attr4_im8.jpg}};
+        % attr5
+        \node [below=0.5cm of attr4im1] (attr5im1) {\includegraphics[width=4cm, height=4cm]{attr5_im1.jpg}};
+        \node (attr5name) [scale=3, below=1cm of attr4name, align=center] {Natural \\ (OSR)};
+        \node [right=0.5cm of attr5im1] (attr5im2) {\includegraphics[width=4cm, height=4cm]{attr5_im2.jpg}};
+        \node [right=0.5cm of attr5im2] (attr5im3) {\includegraphics[width=4cm, height=4cm]{attr5_im3.jpg}};
+        \node [right=0.5cm of attr5im3] (attr5im4) {\includegraphics[width=4cm, height=4cm]{attr5_im4.jpg}};
+        \node [right=0.5cm of attr5im4] (attr5im5) {\includegraphics[width=4cm, height=4cm]{attr5_im5.jpg}};
+        \node [right=0.5cm of attr5im5] (attr5im6) {\includegraphics[width=4cm, height=4cm]{attr5_im6.jpg}};
+        \node [right=0.5cm of attr5im6] (attr5im7) {\includegraphics[width=4cm, height=4cm]{attr5_im7.jpg}};
+        \node [right=0.5cm of attr5im7] (attr5im8) {\includegraphics[width=4cm, height=4cm]{attr5_im8.jpg}};
 
-    % attr5
-    \node [below=0.5cm of attr4im1] (attr5im1) {\includegraphics[width=4cm, height=4cm]{attr5_im1.jpg}};
-    \node (attr5name) [scale=2, left=0.5cm of attr5im1] {Natural (OSR)};
-    \node [right=0.5cm of attr5im1] (attr5im2) {\includegraphics[width=4cm, height=4cm]{attr5_im2.jpg}};
-    \node [right=0.5cm of attr5im2] (attr5im3) {\includegraphics[width=4cm, height=4cm]{attr5_im3.jpg}};
-    \node [right=0.5cm of attr5im3] (attr5im4) {\includegraphics[width=4cm, height=4cm]{attr5_im4.jpg}};
-    \node [right=0.5cm of attr5im4] (attr5im5) {\includegraphics[width=4cm, height=4cm]{attr5_im5.jpg}};
-    \node [right=0.5cm of attr5im5] (attr5im6) {\includegraphics[width=4cm, height=4cm]{attr5_im6.jpg}};
-    \node [right=0.5cm of attr5im6] (attr5im7) {\includegraphics[width=4cm, height=4cm]{attr5_im7.jpg}};
-    \node [right=0.5cm of attr5im7] (attr5im8) {\includegraphics[width=4cm, height=4cm]{attr5_im8.jpg}};
+        % attr7
+        \node [below=0.5cm of attr5im1] (attr7im1) {\includegraphics[width=4cm, height=4cm]{attr7_im1.jpg}};
+        \node (attr7name) [scale=3, below=1.8cm of attr5name, align=center] {Forehead \\ (PubFig)};
+        \node [right=0.5cm of attr7im1] (attr7im2) {\includegraphics[width=4cm, height=4cm]{attr7_im2.jpg}};
+        \node [right=0.5cm of attr7im2] (attr7im3) {\includegraphics[width=4cm, height=4cm]{attr7_im3.jpg}};
+        \node [right=0.5cm of attr7im3] (attr7im4) {\includegraphics[width=4cm, height=4cm]{attr7_im4.jpg}};
+        \node [right=0.5cm of attr7im4] (attr7im5) {\includegraphics[width=4cm, height=4cm]{attr7_im5.jpg}};
+        \node [right=0.5cm of attr7im5] (attr7im6) {\includegraphics[width=4cm, height=4cm]{attr7_im6.jpg}};
+        \node [right=0.5cm of attr7im6] (attr7im7) {\includegraphics[width=4cm, height=4cm]{attr7_im7.jpg}};
+        \node [right=0.5cm of attr7im7] (attr7im8) {\includegraphics[width=4cm, height=4cm]{attr7_im8.jpg}};
 
-    % attr7
-    \node [below=0.5cm of attr5im1] (attr7im1) {\includegraphics[width=4cm, height=4cm]{attr7_im1.jpg}};
-    \node (attr7name) [scale=2, left=0.5cm of attr7im1] {Forehead (PubFig)};
-    \node [right=0.5cm of attr7im1] (attr7im2) {\includegraphics[width=4cm, height=4cm]{attr7_im2.jpg}};
-    \node [right=0.5cm of attr7im2] (attr7im3) {\includegraphics[width=4cm, height=4cm]{attr7_im3.jpg}};
-    \node [right=0.5cm of attr7im3] (attr7im4) {\includegraphics[width=4cm, height=4cm]{attr7_im4.jpg}};
-    \node [right=0.5cm of attr7im4] (attr7im5) {\includegraphics[width=4cm, height=4cm]{attr7_im5.jpg}};
-    \node [right=0.5cm of attr7im5] (attr7im6) {\includegraphics[width=4cm, height=4cm]{attr7_im6.jpg}};
-    \node [right=0.5cm of attr7im6] (attr7im7) {\includegraphics[width=4cm, height=4cm]{attr7_im7.jpg}};
-    \node [right=0.5cm of attr7im7] (attr7im8) {\includegraphics[width=4cm, height=4cm]{attr7_im8.jpg}};
-
-\end{tikzpicture}}
+    \end{tikzpicture}
+}
 \caption{Sample images from different datasets, ordered according to the predicted value of their respective attribute.}
 \label{figspectrum}
 \end{figure*}
@@ -659,8 +627,10 @@ Another property of our network is that it can achieve a total ordering of image
 
 \subsection{Saliency Maps and Localizing the Attributes} \label{sec.4.5}
 
-We have also used the method of \cite{saliency} to visualize the saliency of each attribute. Giving two image as inputs to the network, we take the derivative of the estimated posterior with respect to the input images and visualize them. Figure \ref{fig.5} shows some sample visualization for the LFW-10 dataset's test pairs. To generate this figure we have applied Gaussian smoothing to the saliency map.
-Using this visualization, we can localize the attribute using the same network that was trained to rank the attributes in an unsupervised manner, \ie, although we haven't explicitly trained our network to localize the salient and informative regions of the image, it has implicitly learned to find these regions. We see that this technique is able to localize both easy attributes such as ``Open Eyes" and abstract attributes such as ``Good Looking". Our approach reveals some interesting properties about salient pixels for each attribute. For example, for the attribute ``Open Eyes", not only pixels belonging to the eye are salient, but the pixels which belong to the mouth are also salient. This is because the person with open mouth usually has open eyes.
+We have also used the method of \cite{saliency} to visualize the saliency of each attribute. Giving two image as inputs to the network, we take the derivative of the estimated posterior with respect to the input images and visualize them. Figure \ref{fig.5} shows some sample visualization for some test pairs. To generate this figure we have applied Gaussian smoothing to the saliency map.
+
+These saliency maps visualize the pixels in the images which contributed most to the ranking predicted by the network. Sometimes these saliency maps are easily interpretable by humans and they can be used to localize attributes using the same network that was trained to rank the attributes in an unsupervised manner, \ie, although we haven't explicitly trained our network to localize the salient and informative regions of the image, it has implicitly learned to find these regions.
+We see that this technique is able to localize both easy to localize attributes such as ``Bald Head" in the LFW10 dataset and abstract attributes such as ``Natural" in the OSR dataset.
 
 %\begin{figure}[th!]
 \begin{figure*}
@@ -668,44 +638,44 @@ Using this visualization, we can localize the attribute using the same network t
     \centering
     \begin{subfigure}
         \centering
-        \includegraphics[width=0.65\linewidth, trim={0 1cm 0 0},clip]{bald-1.jpeg}
+        \includegraphics[width=0.8\linewidth, trim={0 1cm 0 0},clip]{baldhead-1.png}
         \footnotesize
         \stackunder[3pt]{
-            \includegraphics[width=0.65\linewidth, trim={0 0 0 1cm},clip]{bald-6.jpeg}
-        }{Bald Head}
+            \includegraphics[width=0.8\linewidth, trim={0 0 0 1cm},clip]{baldhead-8.png}
+        }{LFW10 - Bald Head}
         \vspace{0.4cm}
     \end{subfigure}
     
     \begin{subfigure}
         \centering
-        \includegraphics[width=0.65\linewidth, trim={0 1cm 0 0},clip]{smile-1.jpeg}
+        \includegraphics[width=0.8\linewidth, trim={0 1cm 0 0},clip]{goodlooking-2.png}
         \footnotesize
         \stackunder[3pt]{
-            \includegraphics[width=0.65\linewidth, trim={0 0 0 1cm},clip]{smile-4.jpeg}
-        }{Smile}
+            \includegraphics[width=0.8\linewidth, trim={0 0 0 1cm},clip]{goodlooking-7.png}
+        }{LFW10 - Good Looking}
         \vspace{0.4cm}
     \end{subfigure}
     
     \begin{subfigure}
         \centering
-        \includegraphics[width=0.65\linewidth, trim={0 1cm 0 0},clip]{eyesopen-1.jpeg}
+        \includegraphics[width=0.8\linewidth, trim={0 1cm 0 0},clip]{natural-2.png}
         \footnotesize
         \stackunder[3pt]{
-            \includegraphics[width=0.65\linewidth, trim={0 0 0 1cm},clip]{eyesopen-5.jpeg}
-        }{Open Eyes}
+            \includegraphics[width=0.8\linewidth, trim={0 0 0 1cm},clip]{natural-5.png}
+        }{OSR - Natural}
         \vspace{0.4cm}
     \end{subfigure}
     
     \begin{subfigure}
         \centering
-        \includegraphics[width=0.65\linewidth, trim={0 1cm 0 0},clip]{goodlooking-1.jpeg}
+        \includegraphics[width=0.8\linewidth, trim={0 1cm 0 0},clip]{pointy-1.png}
         \footnotesize
         \stackunder[3pt]{
-            \includegraphics[width=0.65\linewidth, trim={0 0 0 1cm} ,clip]{goodlooking-4.jpeg}
-        }{Good Looking}
+            \includegraphics[width=0.8\linewidth, trim={0 0 0 1cm} ,clip]{pointy-7.png}
+        }{Zappos50k1 - Pointy}
     \end{subfigure}
     
-    \caption{Saliency maps obtained from the network. First we feed two test images into the network and compute the derivative of the estimated posterior with respect to the pair of input images and use the method of \cite{saliency} to visualize salient pixels with Gaussian smoothing. In each row, the two input images from the LFW-10 test set with their corresponding overlaid saliency maps are shown (the warmer the color of the overlay image, the more salient that pixel is).}
+    \caption{Saliency maps obtained from the network. First we feed two test images into the network and compute the derivative of the estimated posterior with respect to the pair of input images and use the method of \cite{saliency} to visualize salient pixels with Gaussian smoothing. In each row, the two input images from the a dataset's test set with their corresponding overlaid saliency maps are shown (the warmer the color of the overlay image, the more salient that pixel is).}
     \label{fig.5}
 \end{figure*}
 
@@ -720,6 +690,10 @@ We qualitatively show that the feature learning and extraction part, effectively
 Furthermore, we show that one can use a trained model for relative attribute prediction to obtain saliency maps for each attribute in the image.
 
 %===========================================================
+
+\section{Acknowledgments}
+We would like to thank Computer Engineering Department of Sharif University of Technology and HPC center of IPM for their support with computational resources.
+
 \bibliographystyle{splncs}
 
 \bibliography{refs}
